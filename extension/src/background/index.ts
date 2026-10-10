@@ -1,38 +1,114 @@
 /**
  * TrustLens Background Service Worker Entrypoint.
- * Coordinates webNavigation hooks, content script messaging, and UI requests.
+ * Coordinates declarativeNetRequest rules, webNavigation hooks, content script messaging, and UI requests.
  */
 
 import { NavigationTracker } from "./navigation-tracker";
-import { ScoringOrchestrator, PageAuditReport } from "./scoring-orchestrator";
+import { ScoringOrchestrator } from "./scoring-orchestrator";
+import { syncBlockRules, redirectOpenTabs } from "./block-rules";
 
 const navTracker = new NavigationTracker();
 const orchestrator = new ScoringOrchestrator(navTracker);
 
-// 1. Stage 1: Pre-navigation hook
+/**
+ * Synchronizes declarative blocking rules and sweeps open tabs across all windows.
+ */
+export async function refreshBlocking(): Promise<void> {
+  try {
+    await orchestrator.getReputationStore().whenReady();
+    const denylist = orchestrator.getReputationStore().getDenylist();
+    await syncBlockRules(denylist);
+    await redirectOpenTabs(denylist);
+  } catch (err) {
+    console.error("[TrustLens] refreshBlocking error:", err);
+  }
+}
+
+// 1. Initialize blocking rules immediately on Service Worker startup
+refreshBlocking().catch((err) => {
+  console.error("[TrustLens] Initial block refresh failed:", err);
+});
+
+// 2. Stage 1: Pre-navigation hook
 chrome.webNavigation?.onBeforeNavigate?.addListener((details) => {
   if (details.frameId === 0 && details.url.startsWith("http")) {
     // Avoid re-evaluating extension URLs or warning interstitial page
     if (details.url.includes("src/ui/interstitial/index.html")) return;
 
+    // Fast synchronous check against user denylist for immediate redirect
+    let hostname = "";
+    try {
+      hostname = new URL(details.url).hostname.toLowerCase();
+    } catch {
+      hostname = details.url.toLowerCase();
+    }
+
+    const denylist = orchestrator.getReputationStore().getDenylist();
+    const isBlocked = denylist.some((d) => {
+      const clean = d.toLowerCase().trim();
+      return clean && (hostname === clean || hostname.endsWith("." + clean));
+    });
+
+    if (isBlocked) {
+      const interstitialUrl =
+        chrome.runtime.getURL("src/ui/interstitial/index.html") +
+        `?target=${encodeURIComponent(details.url)}&score=0&blocked=1`;
+      chrome.tabs.update(details.tabId, { url: interstitialUrl });
+      return;
+    }
+
     navTracker.onBeforeNavigate(details);
-    orchestrator.evaluatePage(details.tabId, details.url, null, 1).then((report) => {
-      // Hard redirect if dangerous (manual user block or critical phishing verdict)
-      if (report.verdict === "Dangerous") {
-        const interstitialUrl = chrome.runtime.getURL("src/ui/interstitial/index.html") +
-          `?target=${encodeURIComponent(details.url)}&score=${report.trustScore}`;
-        chrome.tabs.update(details.tabId, { url: interstitialUrl });
-      }
-    }).catch(console.error);
+    orchestrator
+      .evaluatePage(details.tabId, details.url, null, 1)
+      .then((report) => {
+        // Hard redirect if dangerous (manual user block or critical phishing verdict)
+        if (report.verdict === "Dangerous") {
+          const isUserBlocked = report.isUserOverridden || report.trustScore === 0;
+          const interstitialUrl =
+            chrome.runtime.getURL("src/ui/interstitial/index.html") +
+            `?target=${encodeURIComponent(details.url)}&score=${report.trustScore}${
+              isUserBlocked ? "&blocked=1" : ""
+            }`;
+          chrome.tabs.update(details.tabId, { url: interstitialUrl });
+        }
+      })
+      .catch(console.error);
   }
 });
 
-// 2. Clean up closed tabs
+// 3. SPA History State Navigation Hook (Catches in-page pushState transitions, e.g. YouTube)
+chrome.webNavigation?.onHistoryStateUpdated?.addListener((details) => {
+  if (details.frameId === 0 && details.url.startsWith("http")) {
+    if (details.url.includes("src/ui/interstitial/index.html")) return;
+
+    let hostname = "";
+    try {
+      hostname = new URL(details.url).hostname.toLowerCase();
+    } catch {
+      return;
+    }
+
+    const denylist = orchestrator.getReputationStore().getDenylist();
+    const isBlocked = denylist.some((d) => {
+      const clean = d.toLowerCase().trim();
+      return clean && (hostname === clean || hostname.endsWith("." + clean));
+    });
+
+    if (isBlocked) {
+      const interstitialUrl =
+        chrome.runtime.getURL("src/ui/interstitial/index.html") +
+        `?target=${encodeURIComponent(details.url)}&score=0&blocked=1`;
+      chrome.tabs.update(details.tabId, { url: interstitialUrl });
+    }
+  }
+});
+
+// 4. Clean up closed tabs
 chrome.tabs?.onRemoved?.addListener((tabId) => {
   navTracker.cleanupTab(tabId);
 });
 
-// 3. Message handler for Content Script and UI (Popup/Options/Interstitial)
+// 5. Message handler for Content Script and UI (Popup/Options/Interstitial)
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   const tabId = sender.tab?.id;
 
@@ -43,17 +119,24 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
 
     const { url, html, stage } = message.payload;
-    orchestrator.evaluatePage(tabId, url, html, stage).then((report) => {
-      // If verdict is Dangerous (including manual user block or AI detection), redirect to warning page
-      if (report.verdict === "Dangerous") {
-        const interstitialUrl = chrome.runtime.getURL("src/ui/interstitial/index.html") +
-          `?target=${encodeURIComponent(url)}&score=${report.trustScore}`;
-        chrome.tabs.update(tabId, { url: interstitialUrl });
-      }
-      sendResponse(report);
-    }).catch((err) => {
-      sendResponse({ error: err.message });
-    });
+    orchestrator
+      .evaluatePage(tabId, url, html, stage)
+      .then((report) => {
+        // If verdict is Dangerous, redirect to warning page
+        if (report.verdict === "Dangerous") {
+          const isUserBlocked = report.isUserOverridden || report.trustScore === 0;
+          const interstitialUrl =
+            chrome.runtime.getURL("src/ui/interstitial/index.html") +
+            `?target=${encodeURIComponent(url)}&score=${report.trustScore}${
+              isUserBlocked ? "&blocked=1" : ""
+            }`;
+          chrome.tabs.update(tabId, { url: interstitialUrl });
+        }
+        sendResponse(report);
+      })
+      .catch((err) => {
+        sendResponse({ error: err.message });
+      });
 
     return true; // Asynchronous response
   }
@@ -73,8 +156,14 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     const domain = message.domain;
     if (domain) {
       orchestrator.getReputationStore().addUserAllow(domain);
-      sendResponse({ success: true });
+      refreshBlocking().then(() => {
+        sendResponse({ success: true });
+      }).catch(() => {
+        sendResponse({ success: true });
+      });
+      return true;
     }
+    sendResponse({ success: false });
     return true;
   }
 
@@ -82,8 +171,14 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     const domain = message.domain;
     if (domain) {
       orchestrator.getReputationStore().addUserDeny(domain);
-      sendResponse({ success: true });
+      refreshBlocking().then(() => {
+        sendResponse({ success: true });
+      }).catch(() => {
+        sendResponse({ success: true });
+      });
+      return true;
     }
+    sendResponse({ success: false });
     return true;
   }
 
@@ -91,8 +186,14 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     const domain = message.domain;
     if (domain) {
       orchestrator.getReputationStore().removeUserOverride(domain);
-      sendResponse({ success: true });
+      refreshBlocking().then(() => {
+        sendResponse({ success: true });
+      }).catch(() => {
+        sendResponse({ success: true });
+      });
+      return true;
     }
+    sendResponse({ success: false });
     return true;
   }
 
@@ -105,4 +206,4 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   return false;
 });
 
-console.log("[TrustLens] Background Service Worker successfully initialized.");
+console.log("[TrustLens] Background Service Worker successfully initialized with DNR support.");

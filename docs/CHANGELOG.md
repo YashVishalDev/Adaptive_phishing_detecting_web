@@ -5,6 +5,17 @@ All notable changes to the TrustLens project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-10-10
+
+### Fixed & Enhanced
+- **Native Declarative Net Request (DNR) Blocklist Enforcement:**
+  - Migrated user blocklist enforcement from reactive `webNavigation` to Chrome's native `declarativeNetRequest` engine (`updateDynamicRules`).
+  - Added synchronous `main_frame` redirect rules covering root domains and all subdomains (`requestDomains: [domain]`), completely eliminating the race condition that allowed blocked sites to load.
+  - Implemented `redirectOpenTabs()` to instantly sweep and redirect open tabs when a domain is blocked.
+  - Added SPA history state navigation hooks (`onHistoryStateUpdated`) to intercept client-side Single Page Application routing (e.g. YouTube).
+  - Hardened Warning Interstitial: disabled "Proceed Anyway" for manual user blocks to prevent accidental bypass and loss of user settings; guided users to Settings to unblock.
+  - Added ADR 0002 (`docs/adr/0002-declarative-net-request-user-blocklist.md`).
+
 ## [1.0.0] - 2026-10-10
 
 ### Added

@@ -40,5 +40,9 @@ export default defineConfig({
         assetFileNames: "assets/[name]-[hash].[ext]"
       }
     }
+  },
+  // @ts-ignore
+  test: {
+    include: ["tests/**/*.test.ts"]
   }
 });
