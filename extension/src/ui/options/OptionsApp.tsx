@@ -297,18 +297,22 @@ export const OptionsApp: React.FC = () => {
                 />
               </button>
 
-              {/* Dropdown Menu Window (Always floats in front with z-[60] and 9999 z-index) */}
+              {/* Dropdown Menu Window (Completely solid, 100% opaque background in both light and dark themes) */}
               {isMenuOpen && (
                 <div
-                  className={`absolute right-0 mt-2 w-72 sm:w-80 rounded-2xl border p-2 shadow-2xl z-[60] animate-fade-in ${
+                  className={`absolute right-0 mt-2 w-72 sm:w-80 rounded-2xl border p-2 shadow-2xl z-[9999] animate-fade-in ${
                     isDark
-                      ? "bg-slate-900/98 border-slate-700 text-white shadow-black/90 backdrop-blur-2xl"
-                      : "bg-white/98 border-slate-300 text-slate-950 shadow-slate-400/70 backdrop-blur-2xl"
+                      ? "border-slate-700 bg-slate-900 text-white shadow-2xl shadow-black"
+                      : "border-slate-300 bg-white text-slate-950 shadow-2xl shadow-slate-500/30"
                   }`}
-                  style={{ zIndex: 9999 }}
+                  style={{
+                    zIndex: 9999,
+                    backgroundColor: isDark ? "#0f172a" : "#ffffff",
+                    opacity: 1
+                  }}
                 >
                   <div className={`px-3 py-2 border-b text-[11px] font-black uppercase tracking-wider flex items-center justify-between ${
-                    isDark ? "border-slate-800 text-slate-400" : "border-slate-200 text-slate-600"
+                    isDark ? "border-slate-800 text-slate-400 bg-slate-900" : "border-slate-200 text-slate-600 bg-white"
                   }`}>
                     <span>Navigate Sections</span>
                     <span className="text-[10px] lowercase text-cyan-500 font-bold">6 modules</span>
