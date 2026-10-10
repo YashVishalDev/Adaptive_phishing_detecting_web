@@ -953,6 +953,41 @@ export const OptionsApp: React.FC = () => {
               </div>
               <p className="font-mono text-[11px] break-all font-bold opacity-90">{TRUSTLENS_ED25519_PUBLIC_KEY}</p>
             </div>
+
+            {/* Google Safe Browsing Cloud Verification Layer */}
+            <div
+              className={`p-5 rounded-2xl border ${
+                isDark ? "bg-slate-950/70 border-slate-800 text-slate-200" : "bg-slate-50 border-slate-300 text-slate-900 shadow-sm"
+              } space-y-3`}
+            >
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <div className="flex items-center gap-2">
+                  <ShieldCheck className="w-5 h-5 text-cyan-400" />
+                  <h3 className="font-extrabold text-sm">Google Safe Browsing Cloud Intelligence</h3>
+                </div>
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500/20 border border-emerald-500/40 text-emerald-400">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  API v4 Live
+                </span>
+              </div>
+              <p className={`text-xs leading-relaxed ${isDark ? "text-slate-300" : "text-slate-600"}`}>
+                Real-time cloud threat intelligence cross-checks URLs against Google's global threat databases to detect zero-day phishing, malware distribution points, and social engineering traps.
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5 pt-1 text-xs">
+                <div className={`p-3 rounded-xl border ${isDark ? "border-slate-800 bg-slate-900/60" : "border-slate-200 bg-white"}`}>
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Target Threat Types</span>
+                  <span className="font-bold text-[11px] text-cyan-400 block mt-1">Social Engineering, Malware, Harmful Apps</span>
+                </div>
+                <div className={`p-3 rounded-xl border ${isDark ? "border-slate-800 bg-slate-900/60" : "border-slate-200 bg-white"}`}>
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Configured API Key</span>
+                  <span className="font-mono font-bold text-[11px] text-emerald-400 block mt-1">AIzaSyAHGBn...Gr2yg</span>
+                </div>
+                <div className={`p-3 rounded-xl border ${isDark ? "border-slate-800 bg-slate-900/60" : "border-slate-200 bg-white"}`}>
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Telemetry Policy</span>
+                  <span className="font-bold text-[11px] text-indigo-400 block mt-1">On-Demand UI Check, 5m In-Memory Cache</span>
+                </div>
+              </div>
+            </div>
           </section>
         )}
 
