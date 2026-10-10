@@ -1,0 +1,13 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "installCommand": "npm --prefix extension install",
+  "buildCommand": "npm --prefix extension run build",
+  "outputDirectory": "extension/dist",
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/((?!assets|logo\\.png|yash_vishal\\.jpg|dipanshu_kumar\\.jpg|.*\\..*).*)",
+      "destination": "/index.html"
+    }
+  ]
+}

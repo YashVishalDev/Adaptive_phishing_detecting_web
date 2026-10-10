@@ -1,14 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="refresh" content="0; url=/src/ui/options/index.html" />
-    <title>TrustLens Link Security Scanner</title>
-    <script>
-      window.location.href = "/src/ui/options/index.html";
-    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TrustLens - Phishing & Website Link Security Analyzer</title>
+    <meta name="description" content="TrustLens by Team Code Warriors: Real-time Phishing Detection, Typosquatting Analysis, and Zero-Egress Website Trust Engine." />
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   </head>
-  <body style="background:#0a0e17;color:#fff;font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;">
-    <p>Redirecting to TrustLens Link Security Scanner...</p>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/ui/options/main.tsx"></script>
   </body>
 </html>

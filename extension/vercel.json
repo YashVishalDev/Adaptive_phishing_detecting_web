@@ -1,0 +1,13 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "installCommand": "npm install",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/((?!assets|logo\\.png|yash_vishal\\.jpg|dipanshu_kumar\\.jpg|.*\\..*).*)",
+      "destination": "/index.html"
+    }
+  ]
+}

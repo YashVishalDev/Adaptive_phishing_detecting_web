@@ -1,0 +1,12 @@
+{
+  "name": "trustlens-web",
+  "version": "1.0.0",
+  "private": true,
+  "description": "TrustLens - Adaptive Phishing Detection & Website Trust Engine by Team Code Warriors",
+  "scripts": {
+    "install:all": "npm --prefix extension install",
+    "build": "npm --prefix extension run build",
+    "dev": "npm --prefix extension run dev",
+    "test": "npm --prefix extension run test"
+  }
+}

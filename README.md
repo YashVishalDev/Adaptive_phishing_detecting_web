@@ -104,3 +104,29 @@ python -m pytest backend/tests/test_backend.py
 3. Click **Load unpacked** and select `trustlens/extension/dist`.
 4. The TrustLens shield icon will appear in your toolbar.
 5. Navigate to any website to see real-time Trust Scores (0-100) and plain-language explainability reports!
+
+---
+
+## Deploying Web App to Vercel
+
+TrustLens includes an instant interactive web application (Link Scanner, Security Rules, About Us, and Threat Analysis).
+
+### Method 1: Automatic 1-Click Deploy via Vercel Dashboard
+1. Go to [Vercel](https://vercel.com) and click **"Add New Project"**.
+2. Import your GitHub repository: `https://github.com/YashVishalDev/Adaptive_phishing_detecting_web`.
+3. Vercel automatically detects the root `vercel.json` and `package.json`.
+4. Click **Deploy**! (Build and output directories are pre-configured: `extension/dist`).
+
+### Method 2: Deploying via Vercel CLI
+```bash
+npm install -g vercel
+vercel
+```
+
+---
+
+## Developed by Team Code Warriors
+
+- **Yash Vishal** — Full Stack Developer & System Architect (BCA Student, Semester 1st)
+- **Dipanshu Kumar** — Backend Developer & Logo Designer (BCA Student, Semester 1st)
+

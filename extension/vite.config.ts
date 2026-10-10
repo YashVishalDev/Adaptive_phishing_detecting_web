@@ -5,18 +5,12 @@ import * as fs from "fs";
 
 function copyManifestPlugin() {
   return {
-    name: "copy-manifest-and-index",
+    name: "copy-manifest",
     closeBundle() {
       const manifestPath = resolve(__dirname, "manifest.json");
       const distManifestPath = resolve(__dirname, "dist/manifest.json");
       if (fs.existsSync(manifestPath)) {
         fs.copyFileSync(manifestPath, distManifestPath);
-      }
-
-      const indexPath = resolve(__dirname, "index.html");
-      const distIndexPath = resolve(__dirname, "dist/index.html");
-      if (fs.existsSync(indexPath)) {
-        fs.copyFileSync(indexPath, distIndexPath);
       }
     }
   };
@@ -29,6 +23,7 @@ export default defineConfig({
     emptyOutDir: true,
     rollupOptions: {
       input: {
+        main: resolve(__dirname, "index.html"),
         popup: resolve(__dirname, "src/ui/popup/index.html"),
         interstitial: resolve(__dirname, "src/ui/interstitial/index.html"),
         options: resolve(__dirname, "src/ui/options/index.html"),
