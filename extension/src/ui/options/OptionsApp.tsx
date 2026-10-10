@@ -820,7 +820,7 @@ export const OptionsApp: React.FC = () => {
             </div>
             <span className="hidden sm:inline text-slate-400">•</span>
             <span className={`text-xs font-bold ${isDark ? "text-slate-300" : "text-slate-800"}`}>
-              Yash Vishal (Full Stack Developer) & Dipanshu Kumar (Backend & Logo)
+              Yash Vishal | Dipanshu Kumar
             </span>
           </div>
 
