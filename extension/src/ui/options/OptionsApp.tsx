@@ -300,28 +300,51 @@ export const OptionsApp: React.FC = () => {
                 />
               </button>
 
-              {/* Dropdown Menu Window (Completely solid, 100% opaque background in both light and dark themes) */}
+              {/* Dropdown Menu Window (Prominent elevated floating popup card with distinct border & notch) */}
               {isMenuOpen && (
                 <div
-                  className={`absolute right-0 mt-2 w-72 sm:w-80 rounded-2xl border p-2 shadow-2xl z-[9999] animate-fade-in ${
+                  className={`absolute right-0 mt-3 w-72 sm:w-80 rounded-2xl border-2 p-2.5 shadow-2xl z-[9999] animate-fade-in ${
                     isDark
-                      ? "border-slate-700 bg-slate-900 text-white shadow-2xl shadow-black"
-                      : "border-slate-300 bg-white text-slate-950 shadow-2xl shadow-slate-500/30"
+                      ? "border-cyan-500/70 ring-2 ring-cyan-500/20 text-white shadow-2xl shadow-cyan-950/60"
+                      : "border-blue-500 ring-4 ring-blue-500/15 text-slate-950 shadow-2xl shadow-blue-950/25"
                   }`}
                   style={{
                     zIndex: 9999,
-                    backgroundColor: isDark ? "#0f172a" : "#ffffff",
+                    backgroundColor: isDark ? "#0c1427" : "#ffffff",
                     opacity: 1
                   }}
                 >
-                  <div className={`px-3 py-2 border-b text-[11px] font-black uppercase tracking-wider flex items-center justify-between ${
-                    isDark ? "border-slate-800 text-slate-400 bg-slate-900" : "border-slate-200 text-slate-600 bg-white"
-                  }`}>
-                    <span>Navigate Sections</span>
-                    <span className="text-[10px] lowercase text-cyan-500 font-bold">6 modules</span>
+                  {/* Visual Pointer Notch pointing directly to the Menu button */}
+                  <div
+                    className={`absolute -top-2 right-8 w-3.5 h-3.5 rotate-45 border-t-2 border-l-2 pointer-events-none ${
+                      isDark ? "border-cyan-500/70 bg-[#0c1427]" : "border-blue-500 bg-white"
+                    }`}
+                  />
+
+                  {/* Distinct Popup Header Card */}
+                  <div
+                    className={`px-3 py-2 rounded-xl border mb-2 flex items-center justify-between ${
+                      isDark
+                        ? "border-slate-800 bg-slate-950/70 text-slate-300"
+                        : "border-blue-100 bg-blue-50/70 text-blue-900"
+                    }`}
+                  >
+                    <span className="flex items-center gap-1.5 text-[11px] font-black uppercase tracking-wider">
+                      <span className="w-2 h-2 rounded-full bg-cyan-500 animate-pulse" />
+                      TrustLens Navigation
+                    </span>
+                    <span
+                      className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
+                        isDark
+                          ? "bg-cyan-950/80 border-cyan-500/40 text-cyan-300"
+                          : "bg-blue-100 border-blue-300 text-blue-800"
+                      }`}
+                    >
+                      6 Modules
+                    </span>
                   </div>
 
-                  <div className="space-y-1 pt-1.5">
+                  <div className="space-y-1">
                     {MENU_ITEMS.map((item) => {
                       const isSelected = activeTab === item.id;
                       const Icon = item.icon;
