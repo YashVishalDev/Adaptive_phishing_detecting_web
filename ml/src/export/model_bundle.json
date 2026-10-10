@@ -1,0 +1,2944 @@
+{
+  "model_version": "1.0.0",
+  "feature_names": [
+    "url_length",
+    "domain_length",
+    "subdomain_count",
+    "is_ip_host",
+    "has_punycode",
+    "entropy_domain",
+    "digit_ratio_url",
+    "special_char_count",
+    "has_at_symbol",
+    "double_slash_redirect",
+    "suspicious_tld",
+    "is_known_shortener",
+    "port_anomaly",
+    "brand_in_subdomain",
+    "brand_in_path",
+    "min_typosquat_dist",
+    "has_password_input",
+    "has_email_input",
+    "has_otp_token_input",
+    "hidden_elements_count",
+    "iframe_count",
+    "external_scripts_ratio",
+    "external_css_ratio",
+    "external_img_ratio",
+    "favicon_origin_mismatch",
+    "title_brand_mismatch",
+    "has_meta_refresh",
+    "empty_anchor_ratio",
+    "anchor_text_url_mismatch",
+    "context_menu_disabled",
+    "obfuscated_js_detected",
+    "form_action_cross_origin",
+    "form_action_insecure",
+    "form_action_empty",
+    "credential_cross_post",
+    "sensitive_combo_detected",
+    "redirect_hop_count",
+    "redirect_cross_domain",
+    "protocol_downgraded",
+    "is_https",
+    "has_mixed_content",
+    "tls_validity_days",
+    "is_tranco_top_10k",
+    "is_bloom_bad_hit"
+  ],
+  "feature_count": 44,
+  "tree_count": 50,
+  "trees": [
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 6,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 33.5,
+          "left": 2,
+          "right": 5,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 41,
+          "threshold": 250.5,
+          "left": 3,
+          "right": 4,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.185615
+        },
+        {
+          "is_leaf": true,
+          "value": -0.185615
+        },
+        {
+          "is_leaf": true,
+          "value": -0.185615
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 85.5,
+          "left": 7,
+          "right": 8,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.134447
+        },
+        {
+          "is_leaf": true,
+          "value": 0.134447
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 6,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 32.5,
+          "left": 2,
+          "right": 5,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 22.5,
+          "left": 3,
+          "right": 4,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.146447
+        },
+        {
+          "is_leaf": true,
+          "value": -0.146447
+        },
+        {
+          "is_leaf": true,
+          "value": -0.146447
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 59.5,
+          "left": 7,
+          "right": 8,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.149936
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 85.5,
+          "left": 9,
+          "right": 12,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 1,
+          "threshold": 20.5,
+          "left": 10,
+          "right": 11,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.149936
+        },
+        {
+          "is_leaf": true,
+          "value": 0.149936
+        },
+        {
+          "is_leaf": true,
+          "value": 0.149936
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 2,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.137395
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 39.5,
+          "left": 3,
+          "right": 4,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.140198
+        },
+        {
+          "is_leaf": true,
+          "value": 0.140198
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 6,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 1,
+          "threshold": 16.5,
+          "left": 2,
+          "right": 3,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.130027
+        },
+        {
+          "is_leaf": false,
+          "feature": 41,
+          "threshold": 294.5,
+          "left": 4,
+          "right": 5,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.130027
+        },
+        {
+          "is_leaf": true,
+          "value": -0.130027
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 34.5,
+          "left": 7,
+          "right": 10,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 6,
+          "threshold": 0.02985,
+          "left": 8,
+          "right": 9,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.132324
+        },
+        {
+          "is_leaf": true,
+          "value": 0.132324
+        },
+        {
+          "is_leaf": true,
+          "value": 0.132324
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 2,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.123928
+        },
+        {
+          "is_leaf": true,
+          "value": 0.125838
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 4,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 35.5,
+          "left": 2,
+          "right": 3,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.118808
+        },
+        {
+          "is_leaf": true,
+          "value": -0.118808
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 86.5,
+          "left": 5,
+          "right": 8,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 33.5,
+          "left": 6,
+          "right": 7,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.120418
+        },
+        {
+          "is_leaf": true,
+          "value": 0.120418
+        },
+        {
+          "is_leaf": true,
+          "value": 0.120418
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 4,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 41,
+          "threshold": 82.5,
+          "left": 2,
+          "right": 3,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.11446
+        },
+        {
+          "is_leaf": true,
+          "value": -0.11446
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 87.5,
+          "left": 5,
+          "right": 6,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.115833
+        },
+        {
+          "is_leaf": true,
+          "value": 0.115833
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 4,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 41,
+          "threshold": 331.5,
+          "left": 2,
+          "right": 3,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.110733
+        },
+        {
+          "is_leaf": true,
+          "value": -0.110733
+        },
+        {
+          "is_leaf": true,
+          "value": 0.111914
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 2,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.107512
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 82.5,
+          "left": 3,
+          "right": 4,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.108535
+        },
+        {
+          "is_leaf": true,
+          "value": 0.108535
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 4,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 33.5,
+          "left": 2,
+          "right": 3,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.104707
+        },
+        {
+          "is_leaf": true,
+          "value": -0.104707
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 84.5,
+          "left": 5,
+          "right": 6,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.1056
+        },
+        {
+          "is_leaf": true,
+          "value": 0.1056
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 2,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.102251
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 87.5,
+          "left": 3,
+          "right": 4,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.103034
+        },
+        {
+          "is_leaf": true,
+          "value": 0.103034
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 4,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 1,
+          "threshold": 9.5,
+          "left": 2,
+          "right": 3,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.100088
+        },
+        {
+          "is_leaf": true,
+          "value": -0.100088
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 58.5,
+          "left": 5,
+          "right": 6,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.100779
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 60.5,
+          "left": 7,
+          "right": 8,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.100779
+        },
+        {
+          "is_leaf": true,
+          "value": 0.100779
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 4,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 23.5,
+          "left": 2,
+          "right": 3,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.098175
+        },
+        {
+          "is_leaf": true,
+          "value": -0.098175
+        },
+        {
+          "is_leaf": false,
+          "feature": 6,
+          "threshold": 0.27815,
+          "left": 5,
+          "right": 6,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.098787
+        },
+        {
+          "is_leaf": true,
+          "value": 0.098787
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 10,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 41,
+          "threshold": 331.5,
+          "left": 2,
+          "right": 3,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.096476
+        },
+        {
+          "is_leaf": false,
+          "feature": 41,
+          "threshold": 353.5,
+          "left": 4,
+          "right": 9,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 41,
+          "threshold": 345.5,
+          "left": 5,
+          "right": 8,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 41,
+          "threshold": 339.5,
+          "left": 6,
+          "right": 7,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.096476
+        },
+        {
+          "is_leaf": true,
+          "value": -0.096476
+        },
+        {
+          "is_leaf": true,
+          "value": -0.096476
+        },
+        {
+          "is_leaf": true,
+          "value": -0.096476
+        },
+        {
+          "is_leaf": false,
+          "feature": 6,
+          "threshold": 0.32605,
+          "left": 11,
+          "right": 12,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.09702
+        },
+        {
+          "is_leaf": true,
+          "value": 0.09702
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 4,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 41,
+          "threshold": 186.5,
+          "left": 2,
+          "right": 3,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.09496
+        },
+        {
+          "is_leaf": true,
+          "value": -0.09496
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 81.5,
+          "left": 5,
+          "right": 6,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.095446
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 82.5,
+          "left": 7,
+          "right": 8,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.095446
+        },
+        {
+          "is_leaf": false,
+          "feature": 6,
+          "threshold": 0.2378,
+          "left": 9,
+          "right": 10,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.095446
+        },
+        {
+          "is_leaf": true,
+          "value": 0.095446
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 4,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 41,
+          "threshold": 353.5,
+          "left": 2,
+          "right": 3,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.093605
+        },
+        {
+          "is_leaf": true,
+          "value": -0.093605
+        },
+        {
+          "is_leaf": false,
+          "feature": 1,
+          "threshold": 34.5,
+          "left": 5,
+          "right": 6,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.09404
+        },
+        {
+          "is_leaf": true,
+          "value": 0.09404
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 8,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 25.5,
+          "left": 2,
+          "right": 3,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.092389
+        },
+        {
+          "is_leaf": false,
+          "feature": 5,
+          "threshold": 2.4528,
+          "left": 4,
+          "right": 5,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.092389
+        },
+        {
+          "is_leaf": false,
+          "feature": 41,
+          "threshold": 328.5,
+          "left": 6,
+          "right": 7,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.092389
+        },
+        {
+          "is_leaf": true,
+          "value": -0.092389
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 51.5,
+          "left": 9,
+          "right": 10,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.09278
+        },
+        {
+          "is_leaf": true,
+          "value": 0.09278
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 6,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 31.5,
+          "left": 2,
+          "right": 5,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 41,
+          "threshold": 335.5,
+          "left": 3,
+          "right": 4,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.091296
+        },
+        {
+          "is_leaf": true,
+          "value": -0.091296
+        },
+        {
+          "is_leaf": true,
+          "value": -0.091296
+        },
+        {
+          "is_leaf": false,
+          "feature": 5,
+          "threshold": 3.4055,
+          "left": 7,
+          "right": 8,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.091648
+        },
+        {
+          "is_leaf": true,
+          "value": 0.091648
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 4,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 41,
+          "threshold": 146.5,
+          "left": 2,
+          "right": 3,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.09031
+        },
+        {
+          "is_leaf": true,
+          "value": -0.09031
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 87.5,
+          "left": 5,
+          "right": 6,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.090628
+        },
+        {
+          "is_leaf": true,
+          "value": 0.090628
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 2,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.08942
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 56.5,
+          "left": 3,
+          "right": 4,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.089707
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 70.0,
+          "left": 5,
+          "right": 6,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.089707
+        },
+        {
+          "is_leaf": true,
+          "value": 0.089707
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 6,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 25.5,
+          "left": 2,
+          "right": 5,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 41,
+          "threshold": 76.0,
+          "left": 3,
+          "right": 4,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.088614
+        },
+        {
+          "is_leaf": true,
+          "value": -0.088614
+        },
+        {
+          "is_leaf": true,
+          "value": -0.088614
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 85.5,
+          "left": 7,
+          "right": 10,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 52.5,
+          "left": 8,
+          "right": 9,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.088874
+        },
+        {
+          "is_leaf": true,
+          "value": 0.088874
+        },
+        {
+          "is_leaf": false,
+          "feature": 1,
+          "threshold": 23.5,
+          "left": 11,
+          "right": 12,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.088874
+        },
+        {
+          "is_leaf": true,
+          "value": 0.088874
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 6,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 41,
+          "threshold": 249.5,
+          "left": 2,
+          "right": 5,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 41,
+          "threshold": 220.5,
+          "left": 3,
+          "right": 4,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.087884
+        },
+        {
+          "is_leaf": true,
+          "value": -0.087884
+        },
+        {
+          "is_leaf": true,
+          "value": -0.087884
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 37.5,
+          "left": 7,
+          "right": 8,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.088119
+        },
+        {
+          "is_leaf": true,
+          "value": 0.088119
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 6,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 25.5,
+          "left": 2,
+          "right": 3,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.08722
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 26.5,
+          "left": 4,
+          "right": 5,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.08722
+        },
+        {
+          "is_leaf": true,
+          "value": -0.08722
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 85.5,
+          "left": 7,
+          "right": 8,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.087434
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 87.5,
+          "left": 9,
+          "right": 10,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.087434
+        },
+        {
+          "is_leaf": true,
+          "value": 0.087434
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 2,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.086617
+        },
+        {
+          "is_leaf": false,
+          "feature": 5,
+          "threshold": 0.95915,
+          "left": 3,
+          "right": 4,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.086812
+        },
+        {
+          "is_leaf": true,
+          "value": 0.086812
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 6,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 34.5,
+          "left": 2,
+          "right": 3,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.086068
+        },
+        {
+          "is_leaf": false,
+          "feature": 41,
+          "threshold": 208.5,
+          "left": 4,
+          "right": 5,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.086068
+        },
+        {
+          "is_leaf": true,
+          "value": -0.086068
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 85.5,
+          "left": 7,
+          "right": 10,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 1,
+          "threshold": 13.5,
+          "left": 8,
+          "right": 9,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.086246
+        },
+        {
+          "is_leaf": true,
+          "value": 0.086246
+        },
+        {
+          "is_leaf": true,
+          "value": 0.086246
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 2,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.085568
+        },
+        {
+          "is_leaf": true,
+          "value": 0.08573
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 6,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 20.5,
+          "left": 2,
+          "right": 5,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 41,
+          "threshold": 280.5,
+          "left": 3,
+          "right": 4,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.085111
+        },
+        {
+          "is_leaf": true,
+          "value": -0.085111
+        },
+        {
+          "is_leaf": true,
+          "value": -0.085111
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 78.5,
+          "left": 7,
+          "right": 8,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.085259
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 81.5,
+          "left": 9,
+          "right": 10,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.085259
+        },
+        {
+          "is_leaf": true,
+          "value": 0.085259
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 10,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 31.5,
+          "left": 2,
+          "right": 9,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 41,
+          "threshold": 209.5,
+          "left": 3,
+          "right": 8,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 41,
+          "threshold": 92.5,
+          "left": 4,
+          "right": 7,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 41,
+          "threshold": 84.5,
+          "left": 5,
+          "right": 6,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.084694
+        },
+        {
+          "is_leaf": true,
+          "value": -0.084694
+        },
+        {
+          "is_leaf": true,
+          "value": -0.084694
+        },
+        {
+          "is_leaf": true,
+          "value": -0.084694
+        },
+        {
+          "is_leaf": true,
+          "value": -0.084694
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 51.5,
+          "left": 11,
+          "right": 12,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.084829
+        },
+        {
+          "is_leaf": true,
+          "value": 0.084829
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 2,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.084313
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 83.5,
+          "left": 3,
+          "right": 4,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.084436
+        },
+        {
+          "is_leaf": false,
+          "feature": 6,
+          "threshold": 0.2378,
+          "left": 5,
+          "right": 6,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.084436
+        },
+        {
+          "is_leaf": true,
+          "value": 0.084436
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 2,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.083964
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 85.5,
+          "left": 3,
+          "right": 4,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.084077
+        },
+        {
+          "is_leaf": true,
+          "value": 0.084077
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 10,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 22.5,
+          "left": 2,
+          "right": 5,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 18.5,
+          "left": 3,
+          "right": 4,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.083645
+        },
+        {
+          "is_leaf": true,
+          "value": -0.083645
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 35.5,
+          "left": 6,
+          "right": 9,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 33.5,
+          "left": 7,
+          "right": 8,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.083645
+        },
+        {
+          "is_leaf": true,
+          "value": -0.083645
+        },
+        {
+          "is_leaf": true,
+          "value": -0.083645
+        },
+        {
+          "is_leaf": true,
+          "value": 0.083748
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 4,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 41,
+          "threshold": 81.0,
+          "left": 2,
+          "right": 3,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.083353
+        },
+        {
+          "is_leaf": true,
+          "value": -0.083353
+        },
+        {
+          "is_leaf": false,
+          "feature": 1,
+          "threshold": 13.5,
+          "left": 5,
+          "right": 6,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.083447
+        },
+        {
+          "is_leaf": true,
+          "value": 0.083447
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 6,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 18.5,
+          "left": 2,
+          "right": 3,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.083084
+        },
+        {
+          "is_leaf": false,
+          "feature": 41,
+          "threshold": 358.5,
+          "left": 4,
+          "right": 5,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.083084
+        },
+        {
+          "is_leaf": true,
+          "value": -0.083084
+        },
+        {
+          "is_leaf": true,
+          "value": 0.083171
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 6,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 29.5,
+          "left": 2,
+          "right": 3,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.082839
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 31.5,
+          "left": 4,
+          "right": 5,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.082839
+        },
+        {
+          "is_leaf": true,
+          "value": -0.082839
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 87.5,
+          "left": 7,
+          "right": 10,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 1,
+          "threshold": 39.5,
+          "left": 8,
+          "right": 9,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.082918
+        },
+        {
+          "is_leaf": true,
+          "value": 0.082918
+        },
+        {
+          "is_leaf": true,
+          "value": 0.082918
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 4,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 31.5,
+          "left": 2,
+          "right": 3,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.082613
+        },
+        {
+          "is_leaf": true,
+          "value": -0.082613
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 82.5,
+          "left": 5,
+          "right": 6,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.082686
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 85.5,
+          "left": 7,
+          "right": 8,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.082686
+        },
+        {
+          "is_leaf": true,
+          "value": 0.082686
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 4,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 34.5,
+          "left": 2,
+          "right": 3,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.082406
+        },
+        {
+          "is_leaf": true,
+          "value": -0.082406
+        },
+        {
+          "is_leaf": false,
+          "feature": 6,
+          "threshold": 0.3494,
+          "left": 5,
+          "right": 6,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.082473
+        },
+        {
+          "is_leaf": true,
+          "value": 0.082473
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 6,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 15,
+          "threshold": 6.5,
+          "left": 2,
+          "right": 5,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 34.5,
+          "left": 3,
+          "right": 4,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.082215
+        },
+        {
+          "is_leaf": true,
+          "value": -0.082215
+        },
+        {
+          "is_leaf": true,
+          "value": -0.082215
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 87.5,
+          "left": 7,
+          "right": 8,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.082277
+        },
+        {
+          "is_leaf": true,
+          "value": 0.082277
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 10,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 35.5,
+          "left": 2,
+          "right": 9,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 41,
+          "threshold": 355.5,
+          "left": 3,
+          "right": 8,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 41,
+          "threshold": 333.5,
+          "left": 4,
+          "right": 5,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.082041
+        },
+        {
+          "is_leaf": false,
+          "feature": 41,
+          "threshold": 349.5,
+          "left": 6,
+          "right": 7,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.082041
+        },
+        {
+          "is_leaf": true,
+          "value": -0.082041
+        },
+        {
+          "is_leaf": true,
+          "value": -0.082041
+        },
+        {
+          "is_leaf": true,
+          "value": -0.082041
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 87.5,
+          "left": 11,
+          "right": 12,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.082097
+        },
+        {
+          "is_leaf": true,
+          "value": 0.082097
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 6,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 32.5,
+          "left": 2,
+          "right": 3,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.08188
+        },
+        {
+          "is_leaf": false,
+          "feature": 5,
+          "threshold": 2.6133,
+          "left": 4,
+          "right": 5,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.08188
+        },
+        {
+          "is_leaf": true,
+          "value": -0.08188
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 87.5,
+          "left": 7,
+          "right": 14,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 85.5,
+          "left": 8,
+          "right": 13,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 81.5,
+          "left": 9,
+          "right": 12,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 70.0,
+          "left": 10,
+          "right": 11,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.081932
+        },
+        {
+          "is_leaf": true,
+          "value": 0.081932
+        },
+        {
+          "is_leaf": true,
+          "value": 0.081932
+        },
+        {
+          "is_leaf": true,
+          "value": 0.081932
+        },
+        {
+          "is_leaf": true,
+          "value": 0.081932
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 6,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 5,
+          "threshold": 3.5341,
+          "left": 2,
+          "right": 5,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 41,
+          "threshold": 343.5,
+          "left": 3,
+          "right": 4,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.081732
+        },
+        {
+          "is_leaf": true,
+          "value": -0.081732
+        },
+        {
+          "is_leaf": true,
+          "value": -0.081732
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 81.5,
+          "left": 7,
+          "right": 8,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.08178
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 85.5,
+          "left": 9,
+          "right": 10,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.08178
+        },
+        {
+          "is_leaf": true,
+          "value": 0.08178
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 6,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 35.5,
+          "left": 2,
+          "right": 5,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 41,
+          "threshold": 349.5,
+          "left": 3,
+          "right": 4,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.081596
+        },
+        {
+          "is_leaf": true,
+          "value": -0.081596
+        },
+        {
+          "is_leaf": true,
+          "value": -0.081596
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 86.5,
+          "left": 7,
+          "right": 10,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 51.5,
+          "left": 8,
+          "right": 9,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.08164
+        },
+        {
+          "is_leaf": true,
+          "value": 0.08164
+        },
+        {
+          "is_leaf": true,
+          "value": 0.08164
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 4,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 35.5,
+          "left": 2,
+          "right": 3,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.081471
+        },
+        {
+          "is_leaf": true,
+          "value": -0.081471
+        },
+        {
+          "is_leaf": true,
+          "value": 0.081512
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 6,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 35.5,
+          "left": 2,
+          "right": 5,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 27.5,
+          "left": 3,
+          "right": 4,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.081356
+        },
+        {
+          "is_leaf": true,
+          "value": -0.081356
+        },
+        {
+          "is_leaf": true,
+          "value": -0.081356
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 87.5,
+          "left": 7,
+          "right": 8,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.081393
+        },
+        {
+          "is_leaf": true,
+          "value": 0.081393
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 6,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 23.5,
+          "left": 2,
+          "right": 3,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.08125
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 32.5,
+          "left": 4,
+          "right": 5,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.08125
+        },
+        {
+          "is_leaf": true,
+          "value": -0.08125
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 87.5,
+          "left": 7,
+          "right": 10,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 58.5,
+          "left": 8,
+          "right": 9,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.081284
+        },
+        {
+          "is_leaf": true,
+          "value": 0.081284
+        },
+        {
+          "is_leaf": true,
+          "value": 0.081284
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 10,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 34.5,
+          "left": 2,
+          "right": 9,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 30.5,
+          "left": 3,
+          "right": 4,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.081152
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 33.5,
+          "left": 5,
+          "right": 8,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 1,
+          "threshold": 13.5,
+          "left": 6,
+          "right": 7,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.081152
+        },
+        {
+          "is_leaf": true,
+          "value": -0.081152
+        },
+        {
+          "is_leaf": true,
+          "value": -0.081152
+        },
+        {
+          "is_leaf": true,
+          "value": -0.081152
+        },
+        {
+          "is_leaf": false,
+          "feature": 6,
+          "threshold": 0.2378,
+          "left": 11,
+          "right": 12,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.081184
+        },
+        {
+          "is_leaf": true,
+          "value": 0.081184
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 12,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 34.5,
+          "left": 2,
+          "right": 9,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 33.5,
+          "left": 3,
+          "right": 8,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 41,
+          "threshold": 310.5,
+          "left": 4,
+          "right": 7,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 41,
+          "threshold": 297.5,
+          "left": 5,
+          "right": 6,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.081063
+        },
+        {
+          "is_leaf": true,
+          "value": -0.081063
+        },
+        {
+          "is_leaf": true,
+          "value": -0.081063
+        },
+        {
+          "is_leaf": true,
+          "value": -0.081063
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 35.5,
+          "left": 10,
+          "right": 11,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.081063
+        },
+        {
+          "is_leaf": true,
+          "value": -0.081063
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 87.5,
+          "left": 13,
+          "right": 16,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 85.5,
+          "left": 14,
+          "right": 15,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.081092
+        },
+        {
+          "is_leaf": true,
+          "value": 0.081092
+        },
+        {
+          "is_leaf": true,
+          "value": 0.081092
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 4,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 35.5,
+          "left": 2,
+          "right": 3,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.08098
+        },
+        {
+          "is_leaf": true,
+          "value": -0.08098
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 85.5,
+          "left": 5,
+          "right": 8,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 5,
+          "threshold": 3.2646,
+          "left": 6,
+          "right": 7,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.081007
+        },
+        {
+          "is_leaf": true,
+          "value": 0.081007
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 87.5,
+          "left": 9,
+          "right": 10,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.081007
+        },
+        {
+          "is_leaf": true,
+          "value": 0.081007
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 12,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 41,
+          "threshold": 301.5,
+          "left": 2,
+          "right": 9,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 41,
+          "threshold": 232.0,
+          "left": 3,
+          "right": 4,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.080904
+        },
+        {
+          "is_leaf": false,
+          "feature": 41,
+          "threshold": 280.5,
+          "left": 5,
+          "right": 6,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.080904
+        },
+        {
+          "is_leaf": false,
+          "feature": 41,
+          "threshold": 289.0,
+          "left": 7,
+          "right": 8,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.080904
+        },
+        {
+          "is_leaf": true,
+          "value": -0.080904
+        },
+        {
+          "is_leaf": false,
+          "feature": 41,
+          "threshold": 355.5,
+          "left": 10,
+          "right": 11,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.080904
+        },
+        {
+          "is_leaf": true,
+          "value": -0.080904
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 87.5,
+          "left": 13,
+          "right": 14,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.080928
+        },
+        {
+          "is_leaf": true,
+          "value": 0.080928
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 8,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 34.5,
+          "left": 2,
+          "right": 5,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 18.5,
+          "left": 3,
+          "right": 4,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.080833
+        },
+        {
+          "is_leaf": true,
+          "value": -0.080833
+        },
+        {
+          "is_leaf": false,
+          "feature": 41,
+          "threshold": 206.5,
+          "left": 6,
+          "right": 7,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.080833
+        },
+        {
+          "is_leaf": true,
+          "value": -0.080833
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 39.5,
+          "left": 9,
+          "right": 12,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 1,
+          "threshold": 18.5,
+          "left": 10,
+          "right": 11,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.080856
+        },
+        {
+          "is_leaf": true,
+          "value": 0.080856
+        },
+        {
+          "is_leaf": true,
+          "value": 0.080856
+        }
+      ]
+    },
+    {
+      "nodes": [
+        {
+          "is_leaf": false,
+          "feature": 31,
+          "threshold": 0.0,
+          "left": 1,
+          "right": 6,
+          "default_left": true
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 32.5,
+          "left": 2,
+          "right": 3,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.080769
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 35.5,
+          "left": 4,
+          "right": 5,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": -0.080769
+        },
+        {
+          "is_leaf": true,
+          "value": -0.080769
+        },
+        {
+          "is_leaf": false,
+          "feature": 0,
+          "threshold": 32.5,
+          "left": 7,
+          "right": 8,
+          "default_left": true
+        },
+        {
+          "is_leaf": true,
+          "value": 0.08079
+        },
+        {
+          "is_leaf": true,
+          "value": 0.08079
+        }
+      ]
+    }
+  ],
+  "base_score": 0.0,
+  "calibrator": {
+    "type": "isotonic",
+    "x_thresholds": [
+      0.00879,
+      0.99098
+    ],
+    "y_values": [
+      0.0,
+      1.0
+    ]
+  },
+  "metrics": {
+    "roc_auc": 1.0,
+    "pr_auc": 1.0,
+    "recall_at_0_5_fpr": 1.0
+  },
+  "signature": "de/SMg3EQPOujY8Ek/tit7DwrGX11DV/Xqp08/yIoi6/2tTfqeJWitIQhX8hKY5wCCRls47B/8nQcDuBzvbsDw==",
+  "sha256": "54003757279710880020db3ef1bf2c090db6d8daaf63678ee7a5af24000cad3d"
+}

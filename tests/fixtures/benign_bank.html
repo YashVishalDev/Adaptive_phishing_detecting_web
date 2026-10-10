@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Global Trust Bank - Online Banking Sign In</title>
+  <style>
+    body { font-family: -apple-system, sans-serif; background: #f0f4f8; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+    .card { background: white; padding: 2.5rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); width: 360px; }
+    h2 { margin-top: 0; color: #1e293b; font-size: 1.4rem; }
+    label { display: block; margin-top: 1rem; color: #64748b; font-size: 0.85rem; }
+    input[type="text"], input[type="password"] { width: 100%; padding: 0.6rem; margin-top: 0.3rem; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; }
+    button { width: 100%; margin-top: 1.5rem; padding: 0.75rem; background: #0284c7; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
+    .links { margin-top: 1.2rem; display: flex; justify-content: space-between; font-size: 0.8rem; }
+    .links a { color: #0284c7; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Global Trust Bank</h2>
+    <p style="font-size: 0.85rem; color: #64748b;">Secure Client Access</p>
+    <form action="/api/v1/auth" method="POST">
+      <label for="username">Username or Client ID</label>
+      <input type="text" id="username" name="username" required>
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required>
+      <button type="submit">Sign In Securely</button>
+    </form>
+    <div class="links">
+      <a href="/help">Security Help</a>
+      <a href="/reset">Forgot Password</a>
+    </div>
+  </div>
+</body>
+</html>

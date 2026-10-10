@@ -1,0 +1,46 @@
+{
+  "manifest_version": 3,
+  "name": "TrustLens - Adaptive Phishing Detection & Website Trust Engine",
+  "version": "1.0.0",
+  "description": "Defensive, explainable, on-device phishing detection and website trust engine powered by tree ensembles and TreeSHAP.",
+  "permissions": [
+    "webNavigation",
+    "storage",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
+  "action": {
+    "default_title": "TrustLens Protection",
+    "default_popup": "src/ui/popup/index.html"
+  },
+  "options_ui": {
+    "page": "src/ui/options/index.html",
+    "open_in_tab": true
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "src/ui/interstitial/index.html",
+        "assets/*"
+      ],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; object-src 'none';"
+  }
+}

