@@ -20,7 +20,9 @@ import {
   Info
 } from "lucide-react";
 
-const logoImg = "/logo.png";
+import { LOGO_IMAGE_DATA } from "../assets/embedded-images";
+
+const logoImg = LOGO_IMAGE_DATA;
 
 interface AboutTrustLensProps {
   isDark: boolean;
@@ -205,6 +207,8 @@ export const AboutTrustLens: React.FC<AboutTrustLensProps> = ({
                 src={logoImg}
                 alt="TrustLens Cyber Eagle Logo"
                 className="w-full h-full object-cover rounded-2xl transition-transform duration-300 group-hover:scale-105"
+                loading="eager"
+                decoding="sync"
               />
             </div>
           </div>

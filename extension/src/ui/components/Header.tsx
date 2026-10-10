@@ -2,7 +2,9 @@ import React from "react";
 import { Settings, ShieldAlert } from "lucide-react";
 import { Verdict } from "../../engine/fusion";
 
-const logoImg = "/logo.png";
+import { LOGO_IMAGE_DATA } from "../assets/embedded-images";
+
+const logoImg = LOGO_IMAGE_DATA;
 
 interface HeaderProps {
   domain: string;
@@ -19,7 +21,13 @@ export const Header: React.FC<HeaderProps> = ({ domain, verdict = "Safe", onOpti
         <div className={`w-9 h-9 rounded-xl border p-0.5 overflow-hidden flex items-center justify-center shrink-0 ${
           isDangerous ? "border-red-500/50 bg-red-950/60" : "border-cyan-500/50 bg-slate-950 shadow-md shadow-cyan-950/40"
         }`}>
-          <img src={logoImg} alt="TrustLens Logo" className="w-full h-full object-cover rounded-lg" />
+          <img
+            src={logoImg}
+            alt="TrustLens Logo"
+            className="w-full h-full object-cover rounded-lg"
+            loading="eager"
+            decoding="sync"
+          />
         </div>
         <div>
           <div className="flex items-center gap-1.5">

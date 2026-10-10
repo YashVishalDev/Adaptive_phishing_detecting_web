@@ -12,9 +12,11 @@ import {
   Cpu
 } from "lucide-react";
 
-const logoImg = "/logo.png";
-const yashPhoto = "/yash_vishal.jpg";
-const dipanshuPhoto = "/dipanshu_kumar.jpg";
+import { LOGO_IMAGE_DATA, YASH_IMAGE_DATA, DIPANSHU_IMAGE_DATA } from "../assets/embedded-images";
+
+const logoImg = LOGO_IMAGE_DATA;
+const yashPhoto = YASH_IMAGE_DATA;
+const dipanshuPhoto = DIPANSHU_IMAGE_DATA;
 
 interface AboutDevelopersProps {
   isDark: boolean;
@@ -55,6 +57,8 @@ export const AboutDevelopers: React.FC<AboutDevelopersProps> = ({ isDark }) => {
                 src={logoImg}
                 alt="Code Warriors Logo"
                 className="w-full h-full object-cover rounded-xl transition-transform duration-300 group-hover:scale-105"
+                loading="eager"
+                decoding="sync"
               />
             </div>
           </div>
@@ -156,6 +160,8 @@ export const AboutDevelopers: React.FC<AboutDevelopersProps> = ({ isDark }) => {
                     src={yashPhoto}
                     alt="Yash Vishal - Full Stack Developer"
                     className="w-full h-full object-cover object-top transition-transform duration-300 group-hover/photo:scale-105"
+                    loading="eager"
+                    decoding="sync"
                   />
                 </div>
               </div>
@@ -259,6 +265,8 @@ export const AboutDevelopers: React.FC<AboutDevelopersProps> = ({ isDark }) => {
                     src={dipanshuPhoto}
                     alt="Dipanshu Kumar - Logo & Backend Developer"
                     className="w-full h-full object-cover object-top transition-transform duration-300 group-hover/photo:scale-105"
+                    loading="eager"
+                    decoding="sync"
                   />
                 </div>
               </div>

@@ -5,7 +5,8 @@ import { UrlScannerCard } from "../components/UrlScannerCard";
 import { AboutDevelopers } from "../components/AboutDevelopers";
 import { AboutTrustLens } from "../components/AboutTrustLens";
 
-const logoImg = "/logo.png";
+import { LOGO_IMAGE_DATA } from "../assets/embedded-images";
+const logoImg = LOGO_IMAGE_DATA;
 import {
   ShieldCheck,
   Sliders,
@@ -236,6 +237,8 @@ export const OptionsApp: React.FC = () => {
                   src={logoImg}
                   alt="TrustLens Cyber Eagle Logo"
                   className="w-full h-full object-cover rounded-xl"
+                  loading="eager"
+                  decoding="sync"
                 />
               </div>
             </div>
