@@ -5,6 +5,7 @@ import { UrlScannerCard } from "../components/UrlScannerCard";
 import { AboutDevelopers } from "../components/AboutDevelopers";
 import { AboutTrustLens } from "../components/AboutTrustLens";
 
+import { extractCleanDomain } from "../../features/reputation-store";
 import { LOGO_IMAGE_DATA } from "../assets/embedded-images";
 const logoImg = LOGO_IMAGE_DATA;
 import {
@@ -58,15 +59,39 @@ export const OptionsApp: React.FC = () => {
   // Sensitivity preset
   const [sensitivity, setSensitivity] = useState<SensitivityLevel>("balanced");
 
-  // Overrides list
-  const [allowlist, setAllowlist] = useState<string[]>([
-    "internal.corp.network",
-    "portal.myuniversity.edu"
-  ]);
-  const [denylist, setDenylist] = useState<string[]>([
-    "known-scam-test.xyz",
-    "paypal-security-update.xyz"
-  ]);
+  // Overrides list: synchronized with localStorage & chrome.storage.local
+  const [allowlist, setAllowlist] = useState<string[]>(() => {
+    try {
+      const saved = localStorage.getItem("trustlens_allowlist");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed.map(extractCleanDomain).filter(Boolean);
+        }
+      }
+    } catch {}
+    return [
+      "internal.corp.network",
+      "portal.myuniversity.edu"
+    ];
+  });
+
+  const [denylist, setDenylist] = useState<string[]>(() => {
+    try {
+      const saved = localStorage.getItem("trustlens_denylist");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed.map(extractCleanDomain).filter(Boolean);
+        }
+      }
+    } catch {}
+    return [
+      "known-scam-test.xyz",
+      "paypal-security-update.xyz"
+    ];
+  });
+
   const [newDomain, setNewDomain] = useState("");
   const [savedMessage, setSavedMessage] = useState<string | null>(null);
 
@@ -82,6 +107,22 @@ export const OptionsApp: React.FC = () => {
       localStorage.setItem("trustlens_theme", "light");
     }
   }, [isDark]);
+
+  // Load any stored overrides from chrome.storage.local on mount
+  useEffect(() => {
+    if (typeof chrome !== "undefined" && chrome.storage?.local) {
+      try {
+        chrome.storage.local.get(["trustlens_allowlist", "trustlens_denylist"], (res) => {
+          if (Array.isArray(res?.trustlens_allowlist) && res.trustlens_allowlist.length > 0) {
+            setAllowlist(res.trustlens_allowlist.map(extractCleanDomain).filter(Boolean));
+          }
+          if (Array.isArray(res?.trustlens_denylist) && res.trustlens_denylist.length > 0) {
+            setDenylist(res.trustlens_denylist.map(extractCleanDomain).filter(Boolean));
+          }
+        });
+      } catch {}
+    }
+  }, []);
 
   // Click outside to close menu dropdown
   useEffect(() => {
@@ -123,39 +164,121 @@ export const OptionsApp: React.FC = () => {
   };
 
   const handleAddAllow = (domainToAdd?: string) => {
-    const target = (domainToAdd || newDomain).trim().toLowerCase();
+    const raw = (domainToAdd || newDomain).trim();
+    if (!raw) return;
+    const target = extractCleanDomain(raw);
     if (!target) return;
-    setAllowlist((prev) => [...prev.filter((d) => d !== target), target]);
-    setDenylist((prev) => prev.filter((d) => d !== target));
+
+    setAllowlist((prev) => {
+      const updated = [...prev.filter((d) => extractCleanDomain(d) !== target), target];
+      try { localStorage.setItem("trustlens_allowlist", JSON.stringify(updated)); } catch {}
+      return updated;
+    });
+    setDenylist((prev) => {
+      const updated = prev.filter((d) => extractCleanDomain(d) !== target);
+      try { localStorage.setItem("trustlens_denylist", JSON.stringify(updated)); } catch {}
+      return updated;
+    });
 
     if (typeof chrome !== "undefined" && chrome.runtime) {
       chrome.runtime.sendMessage({ type: "TRUSTLENS_TRUST_SITE", domain: target });
+    }
+    if (typeof chrome !== "undefined" && chrome.storage?.local) {
+      try {
+        chrome.storage.local.get(["trustlens_allowlist", "trustlens_denylist"], (res) => {
+          const a = Array.isArray(res?.trustlens_allowlist) ? res.trustlens_allowlist.map(extractCleanDomain).filter((d: string) => d !== target) : [];
+          const d = Array.isArray(res?.trustlens_denylist) ? res.trustlens_denylist.map(extractCleanDomain).filter((x: string) => x !== target) : [];
+          chrome.storage.local.set({
+            trustlens_allowlist: [...a, target],
+            trustlens_denylist: d
+          });
+        });
+      } catch {}
     }
     if (!domainToAdd) setNewDomain("");
     showNotice(`Added "${target}" to Trusted Domains.`);
   };
 
   const handleAddDeny = (domainToAdd?: string) => {
-    const target = (domainToAdd || newDomain).trim().toLowerCase();
+    const raw = (domainToAdd || newDomain).trim();
+    if (!raw) return;
+    const target = extractCleanDomain(raw);
     if (!target) return;
-    setDenylist((prev) => [...prev.filter((d) => d !== target), target]);
-    setAllowlist((prev) => prev.filter((d) => d !== target));
+
+    setDenylist((prev) => {
+      const updated = [...prev.filter((d) => extractCleanDomain(d) !== target), target];
+      try { localStorage.setItem("trustlens_denylist", JSON.stringify(updated)); } catch {}
+      return updated;
+    });
+    setAllowlist((prev) => {
+      const updated = prev.filter((d) => extractCleanDomain(d) !== target);
+      try { localStorage.setItem("trustlens_allowlist", JSON.stringify(updated)); } catch {}
+      return updated;
+    });
 
     if (typeof chrome !== "undefined" && chrome.runtime) {
       chrome.runtime.sendMessage({ type: "TRUSTLENS_BLOCK_SITE", domain: target });
+    }
+    if (typeof chrome !== "undefined" && chrome.storage?.local) {
+      try {
+        chrome.storage.local.get(["trustlens_allowlist", "trustlens_denylist"], (res) => {
+          const a = Array.isArray(res?.trustlens_allowlist) ? res.trustlens_allowlist.map(extractCleanDomain).filter((d: string) => d !== target) : [];
+          const d = Array.isArray(res?.trustlens_denylist) ? res.trustlens_denylist.map(extractCleanDomain).filter((x: string) => x !== target) : [];
+          chrome.storage.local.set({
+            trustlens_allowlist: a,
+            trustlens_denylist: [...d, target]
+          });
+        });
+      } catch {}
     }
     if (!domainToAdd) setNewDomain("");
     showNotice(`Added "${target}" to Blocked Domains.`);
   };
 
   const handleRemoveAllow = (domain: string) => {
-    setAllowlist(allowlist.filter((d) => d !== domain));
-    showNotice(`Removed "${domain}" from Trusted list.`);
+    const target = extractCleanDomain(domain);
+    setAllowlist((prev) => {
+      const updated = prev.filter((d) => extractCleanDomain(d) !== target && d !== domain);
+      try { localStorage.setItem("trustlens_allowlist", JSON.stringify(updated)); } catch {}
+      return updated;
+    });
+    if (typeof chrome !== "undefined" && chrome.runtime) {
+      chrome.runtime.sendMessage({ type: "TRUSTLENS_REMOVE_OVERRIDE", domain: target });
+    }
+    if (typeof chrome !== "undefined" && chrome.storage?.local) {
+      try {
+        chrome.storage.local.get(["trustlens_allowlist"], (res) => {
+          if (Array.isArray(res?.trustlens_allowlist)) {
+            const updated = res.trustlens_allowlist.filter((x: string) => extractCleanDomain(x) !== target);
+            chrome.storage.local.set({ trustlens_allowlist: updated });
+          }
+        });
+      } catch {}
+    }
+    showNotice(`Removed "${target || domain}" from Trusted list.`);
   };
 
   const handleRemoveDeny = (domain: string) => {
-    setDenylist(denylist.filter((d) => d !== domain));
-    showNotice(`Removed "${domain}" from Blocked list.`);
+    const target = extractCleanDomain(domain);
+    setDenylist((prev) => {
+      const updated = prev.filter((d) => extractCleanDomain(d) !== target && d !== domain);
+      try { localStorage.setItem("trustlens_denylist", JSON.stringify(updated)); } catch {}
+      return updated;
+    });
+    if (typeof chrome !== "undefined" && chrome.runtime) {
+      chrome.runtime.sendMessage({ type: "TRUSTLENS_REMOVE_OVERRIDE", domain: target });
+    }
+    if (typeof chrome !== "undefined" && chrome.storage?.local) {
+      try {
+        chrome.storage.local.get(["trustlens_denylist"], (res) => {
+          if (Array.isArray(res?.trustlens_denylist)) {
+            const updated = res.trustlens_denylist.filter((x: string) => extractCleanDomain(x) !== target);
+            chrome.storage.local.set({ trustlens_denylist: updated });
+          }
+        });
+      } catch {}
+    }
+    showNotice(`Removed "${target || domain}" from Blocked list.`);
   };
 
   const MENU_ITEMS = [
@@ -596,7 +719,7 @@ export const OptionsApp: React.FC = () => {
                 type="text"
                 value={newDomain}
                 onChange={(e) => setNewDomain(e.target.value)}
-                placeholder="Enter domain (e.g., portal.myuniversity.edu or scam-site.xyz)..."
+                placeholder="Enter domain or link (e.g., https://console.firebase.google.com/u/0/ or scam.xyz)..."
                 className={`flex-1 rounded-xl px-4 py-2.5 text-xs font-mono font-bold border transition-all focus:outline-none ${
                   isDark
                     ? "bg-slate-950 border-slate-700 text-white placeholder-slate-400 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500/30"
@@ -622,6 +745,9 @@ export const OptionsApp: React.FC = () => {
                 </button>
               </div>
             </div>
+            <p className={`text-[11px] font-medium -mt-2 ${isDark ? "text-slate-400" : "text-slate-500"}`}>
+              Tip: You can paste full URLs with protocols and paths (e.g. <span className="font-mono text-cyan-400">https://console.firebase.google.com/u/0/</span>). TrustLens automatically normalizes and blocks the entire hostname and all child paths.
+            </p>
 
             {/* Lists Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">

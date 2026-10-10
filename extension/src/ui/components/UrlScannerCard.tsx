@@ -80,10 +80,11 @@ export const UrlScannerCard: React.FC<UrlScannerCardProps> = ({
     setScanning(true);
 
     try {
-      // Simulate micro-delay for responsive scan feel
+      // Micro-delay for responsive scan feel
       setTimeout(() => {
         try {
-          const res = scanner.scan(raw, sensitivity);
+          const activeScanner = new UrlScanner();
+          const res = activeScanner.scan(raw, sensitivity);
           setReport(res);
           setScanning(false);
         } catch (err: any) {
@@ -116,6 +117,9 @@ export const UrlScannerCard: React.FC<UrlScannerCardProps> = ({
     if (report && onAddAllow) {
       onAddAllow(report.hostname);
       showNotice(`Added ${report.hostname} to Trusted domains.`);
+      setTimeout(() => {
+        handleScan(report.rawInput || report.normalizedUrl);
+      }, 80);
     }
   };
 
@@ -123,6 +127,9 @@ export const UrlScannerCard: React.FC<UrlScannerCardProps> = ({
     if (report && onAddDeny) {
       onAddDeny(report.hostname);
       showNotice(`Added ${report.hostname} to Blocked domains.`);
+      setTimeout(() => {
+        handleScan(report.rawInput || report.normalizedUrl);
+      }, 80);
     }
   };
 

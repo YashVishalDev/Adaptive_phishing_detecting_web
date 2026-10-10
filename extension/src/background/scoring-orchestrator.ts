@@ -9,7 +9,7 @@ import { ShapExplainer, FeatureAttribution } from "../engine/shap-explainer";
 import { RuleLayer, RuleResult } from "../engine/rule-layer";
 import { FusionEngine, Verdict, SensitivityLevel } from "../engine/fusion";
 import { ReasonCatalog, PlainReason } from "../engine/reason-catalog";
-import { ReputationStore } from "../features/reputation-store";
+import { ReputationStore, extractCleanDomain } from "../features/reputation-store";
 import { extractAllFeatures, ExtractionContext } from "../features/feature-extractor";
 import { MV3BasicTLSProvider, TLSSignalProvider } from "../features/tls-provider";
 import { NavigationTracker } from "./navigation-tracker";
@@ -66,7 +66,14 @@ export class ScoringOrchestrator {
     htmlContent: string | null = null,
     stage: 1 | 2 | 3 = 1
   ): Promise<PageAuditReport> {
-    const hostname = new URL(url).hostname;
+    await this.reputationStore.whenReady();
+
+    let hostname = "";
+    try {
+      hostname = new URL(url).hostname;
+    } catch {
+      hostname = extractCleanDomain(url);
+    }
 
     // 1. Check user manual override first
     const userTrust = this.reputationStore.getUserTrustStatus(hostname);

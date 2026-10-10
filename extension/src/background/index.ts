@@ -12,8 +12,18 @@ const orchestrator = new ScoringOrchestrator(navTracker);
 // 1. Stage 1: Pre-navigation hook
 chrome.webNavigation?.onBeforeNavigate?.addListener((details) => {
   if (details.frameId === 0 && details.url.startsWith("http")) {
+    // Avoid re-evaluating extension URLs or warning interstitial page
+    if (details.url.includes("src/ui/interstitial/index.html")) return;
+
     navTracker.onBeforeNavigate(details);
-    orchestrator.evaluatePage(details.tabId, details.url, null, 1).catch(console.error);
+    orchestrator.evaluatePage(details.tabId, details.url, null, 1).then((report) => {
+      // Hard redirect if dangerous (manual user block or critical phishing verdict)
+      if (report.verdict === "Dangerous") {
+        const interstitialUrl = chrome.runtime.getURL("src/ui/interstitial/index.html") +
+          `?target=${encodeURIComponent(details.url)}&score=${report.trustScore}`;
+        chrome.tabs.update(details.tabId, { url: interstitialUrl });
+      }
+    }).catch(console.error);
   }
 });
 
@@ -34,8 +44,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
     const { url, html, stage } = message.payload;
     orchestrator.evaluatePage(tabId, url, html, stage).then((report) => {
-      // If verdict is Dangerous, redirect to warning interstitial page
-      if (report.verdict === "Dangerous" && !report.isUserOverridden) {
+      // If verdict is Dangerous (including manual user block or AI detection), redirect to warning page
+      if (report.verdict === "Dangerous") {
         const interstitialUrl = chrome.runtime.getURL("src/ui/interstitial/index.html") +
           `?target=${encodeURIComponent(url)}&score=${report.trustScore}`;
         chrome.tabs.update(tabId, { url: interstitialUrl });
@@ -72,6 +82,15 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     const domain = message.domain;
     if (domain) {
       orchestrator.getReputationStore().addUserDeny(domain);
+      sendResponse({ success: true });
+    }
+    return true;
+  }
+
+  if (message.type === "TRUSTLENS_REMOVE_OVERRIDE") {
+    const domain = message.domain;
+    if (domain) {
+      orchestrator.getReputationStore().removeUserOverride(domain);
       sendResponse({ success: true });
     }
     return true;

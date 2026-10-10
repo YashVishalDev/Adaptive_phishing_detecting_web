@@ -55,4 +55,25 @@ describe("UrlScanner Engine", () => {
     expect(blocked.verdict).toBe("Dangerous");
     expect(blocked.isUserOverridden).toBe(true);
   });
+
+  it("should normalize full URLs like https://console.firebase.google.com/u/0/ and enforce hard block", () => {
+    const repStore = new ReputationStore();
+    // User enters a full URL with scheme and path into blocklist
+    repStore.addUserDeny("https://console.firebase.google.com/u/0/");
+
+    const scanner = new UrlScanner(repStore);
+
+    // 1. Scan exact link
+    const exactScan = scanner.scan("https://console.firebase.google.com/u/0/");
+    expect(exactScan.trustScore).toBe(0);
+    expect(exactScan.verdict).toBe("Dangerous");
+    expect(exactScan.isUserOverridden).toBe(true);
+    expect(exactScan.reasons[0].id).toBe("USER_BLOCKED_OVERRIDE");
+
+    // 2. Scan child path under the blocked domain
+    const subPathScan = scanner.scan("https://console.firebase.google.com/project/my-database/settings");
+    expect(subPathScan.trustScore).toBe(0);
+    expect(subPathScan.verdict).toBe("Dangerous");
+    expect(subPathScan.isUserOverridden).toBe(true);
+  });
 });

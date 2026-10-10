@@ -16,9 +16,15 @@ export function extractCleanDomain(input: string): string {
       clean = "http://" + clean;
     }
     const u = new URL(clean);
-    return u.hostname.toLowerCase();
+    return u.hostname.toLowerCase().trim();
   } catch {
-    return clean.replace(/^https?:\/\//i, "").split("/")[0].split(":")[0].trim();
+    return clean
+      .replace(/^https?:\/\//i, "")
+      .split("/")[0]
+      .split("?")[0]
+      .split("#")[0]
+      .split(":")[0]
+      .trim();
   }
 }
 
@@ -88,6 +94,7 @@ export class ReputationStore {
   private trancoTopDomains: Set<string>;
   private userAllowlist: Set<string>;
   private userDenylist: Set<string>;
+  private loadPromise: Promise<void>;
 
   constructor() {
     this.bloomBad = new CompactBloomFilter(16384, 3);
@@ -114,40 +121,78 @@ export class ReputationStore {
       this.bloomBad.add(t);
     }
 
-    this.initStorage();
+    this.loadPromise = this.initStorage();
   }
 
-  private initStorage(): void {
-    if (typeof chrome !== "undefined" && chrome.storage?.local) {
-      try {
-        chrome.storage.local.get(["trustlens_allowlist", "trustlens_denylist"], (res) => {
-          if (Array.isArray(res?.trustlens_allowlist)) {
-            for (const d of res.trustlens_allowlist) this.userAllowlist.add(d);
-          }
-          if (Array.isArray(res?.trustlens_denylist)) {
-            for (const d of res.trustlens_denylist) this.userDenylist.add(d);
-          }
-        });
-      } catch {}
-    } else if (typeof localStorage !== "undefined") {
+  public async whenReady(): Promise<void> {
+    await this.loadPromise;
+  }
+
+  private initStorage(): Promise<void> {
+    // 1. Synchronously load from localStorage first (for instant availability in web & UI)
+    if (typeof localStorage !== "undefined") {
       try {
         const a = localStorage.getItem("trustlens_allowlist");
         const d = localStorage.getItem("trustlens_denylist");
         if (a) {
           const parsed = JSON.parse(a);
-          if (Array.isArray(parsed)) parsed.forEach((item) => this.userAllowlist.add(item));
+          if (Array.isArray(parsed)) {
+            parsed.forEach((item) => {
+              const clean = extractCleanDomain(item);
+              if (clean) this.userAllowlist.add(clean);
+            });
+          }
         }
         if (d) {
           const parsed = JSON.parse(d);
-          if (Array.isArray(parsed)) parsed.forEach((item) => this.userDenylist.add(item));
+          if (Array.isArray(parsed)) {
+            parsed.forEach((item) => {
+              const clean = extractCleanDomain(item);
+              if (clean) this.userDenylist.add(clean);
+            });
+          }
         }
       } catch {}
     }
+
+    // 2. Also load from chrome.storage.local if available (extension background / options)
+    if (typeof chrome !== "undefined" && chrome.storage?.local) {
+      return new Promise<void>((resolve) => {
+        try {
+          chrome.storage.local.get(["trustlens_allowlist", "trustlens_denylist"], (res) => {
+            if (Array.isArray(res?.trustlens_allowlist)) {
+              for (const d of res.trustlens_allowlist) {
+                const clean = extractCleanDomain(d);
+                if (clean) this.userAllowlist.add(clean);
+              }
+            }
+            if (Array.isArray(res?.trustlens_denylist)) {
+              for (const d of res.trustlens_denylist) {
+                const clean = extractCleanDomain(d);
+                if (clean) this.userDenylist.add(clean);
+              }
+            }
+            resolve();
+          });
+        } catch {
+          resolve();
+        }
+      });
+    }
+
+    return Promise.resolve();
   }
 
   private persistStorage(): void {
     const allowArr = Array.from(this.userAllowlist);
     const denyArr = Array.from(this.userDenylist);
+
+    if (typeof localStorage !== "undefined") {
+      try {
+        localStorage.setItem("trustlens_allowlist", JSON.stringify(allowArr));
+        localStorage.setItem("trustlens_denylist", JSON.stringify(denyArr));
+      } catch {}
+    }
 
     if (typeof chrome !== "undefined" && chrome.storage?.local) {
       try {
@@ -155,13 +200,6 @@ export class ReputationStore {
           trustlens_allowlist: allowArr,
           trustlens_denylist: denyArr
         });
-      } catch {}
-    }
-
-    if (typeof localStorage !== "undefined") {
-      try {
-        localStorage.setItem("trustlens_allowlist", JSON.stringify(allowArr));
-        localStorage.setItem("trustlens_denylist", JSON.stringify(denyArr));
       } catch {}
     }
   }
@@ -180,6 +218,7 @@ export class ReputationStore {
 
   public getUserTrustStatus(hostname: string): -1 | 0 | 1 {
     const cleanHost = extractCleanDomain(hostname);
+    if (!cleanHost) return 0;
     const { apexDomain } = parseDomainParts(cleanHost);
 
     // 1. Direct match on full hostname or apexDomain
@@ -190,14 +229,18 @@ export class ReputationStore {
       return 1;
     }
 
-    // 2. Subdomain wildcard match (e.g., if user blocks "github.com", "www.github.com" or "gist.github.com" is blocked)
-    for (const blocked of this.userDenylist) {
+    // 2. Subdomain wildcard match (e.g. if user blocks "firebase.google.com" or "google.com", any subdomain or URL under it is blocked)
+    for (const rawBlocked of this.userDenylist) {
+      const blocked = extractCleanDomain(rawBlocked);
+      if (!blocked) continue;
       if (cleanHost === blocked || cleanHost.endsWith("." + blocked)) {
         return -1;
       }
     }
 
-    for (const allowed of this.userAllowlist) {
+    for (const rawAllowed of this.userAllowlist) {
+      const allowed = extractCleanDomain(rawAllowed);
+      if (!allowed) continue;
       if (cleanHost === allowed || cleanHost.endsWith("." + allowed)) {
         return 1;
       }
@@ -211,6 +254,10 @@ export class ReputationStore {
     if (!clean) return;
     this.userAllowlist.add(clean);
     this.userDenylist.delete(clean);
+    // Also remove any entries that normalize to clean
+    for (const d of this.userDenylist) {
+      if (extractCleanDomain(d) === clean) this.userDenylist.delete(d);
+    }
     this.persistStorage();
   }
 
@@ -219,6 +266,10 @@ export class ReputationStore {
     if (!clean) return;
     this.userDenylist.add(clean);
     this.userAllowlist.delete(clean);
+    // Also remove any entries that normalize to clean
+    for (const d of this.userAllowlist) {
+      if (extractCleanDomain(d) === clean) this.userAllowlist.delete(d);
+    }
     this.persistStorage();
   }
 
@@ -227,6 +278,12 @@ export class ReputationStore {
     if (!clean) return;
     this.userAllowlist.delete(clean);
     this.userDenylist.delete(clean);
+    for (const d of this.userAllowlist) {
+      if (extractCleanDomain(d) === clean) this.userAllowlist.delete(d);
+    }
+    for (const d of this.userDenylist) {
+      if (extractCleanDomain(d) === clean) this.userDenylist.delete(d);
+    }
     this.persistStorage();
   }
 
