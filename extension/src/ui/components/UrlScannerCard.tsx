@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { UrlScanner, UrlScanReport } from "../../engine/url-scanner";
 import { ScoreGauge } from "./ScoreGauge";
 import { ReasonCard } from "./ReasonCard";
@@ -17,7 +17,10 @@ import {
   Sparkles,
   ArrowRight,
   ShieldBan,
-  CheckCircle2
+  CheckCircle2,
+  Eye,
+  X,
+  Plus
 } from "lucide-react";
 
 interface UrlScannerCardProps {
@@ -67,7 +70,32 @@ export const UrlScannerCard: React.FC<UrlScannerCardProps> = ({
   const [copied, setCopied] = useState(false);
   const [notification, setNotification] = useState<string | null>(null);
 
-  const scanner = new UrlScanner();
+  // Scan tracking count and live feedback toast
+  const [scanCount, setScanCount] = useState(0);
+  const [lastScanInfo, setLastScanInfo] = useState<{
+    count: number;
+    time: string;
+    domain: string;
+    score: number;
+    verdict: string;
+  } | null>(null);
+  const [scanToast, setScanToast] = useState<{
+    id: number;
+    message: string;
+    domain: string;
+    score: number;
+    verdict: string;
+    time: string;
+  } | null>(null);
+
+  // Action confirmation modal (for Trust / Block actions)
+  const [actionModal, setActionModal] = useState<{
+    isOpen: boolean;
+    actionType: "trust" | "block";
+    domain: string;
+  } | null>(null);
+
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleScan = (targetUrl?: string) => {
     const raw = (targetUrl !== undefined ? targetUrl : inputUrl).trim();
@@ -80,18 +108,45 @@ export const UrlScannerCard: React.FC<UrlScannerCardProps> = ({
     setScanning(true);
 
     try {
-      // Micro-delay for responsive scan feel
+      // Micro-delay with fresh scanner instantiation
       setTimeout(() => {
         try {
           const activeScanner = new UrlScanner();
           const res = activeScanner.scan(raw, sensitivity);
           setReport(res);
           setScanning(false);
+
+          const nextCount = scanCount + 1;
+          setScanCount(nextCount);
+          const timeStr = new Date().toLocaleTimeString();
+
+          setLastScanInfo({
+            count: nextCount,
+            time: timeStr,
+            domain: res.hostname,
+            score: res.trustScore,
+            verdict: res.verdict
+          });
+
+          // Vibrant pop-up notification on every single scan
+          setScanToast({
+            id: nextCount,
+            message: `Scan #${nextCount} Verified: ${res.hostname}`,
+            domain: res.hostname,
+            score: res.trustScore,
+            verdict: res.verdict,
+            time: timeStr
+          });
+
+          // Auto-dismiss scan toast after 4s
+          setTimeout(() => {
+            setScanToast((curr) => (curr?.id === nextCount ? null : curr));
+          }, 4000);
         } catch (err: any) {
           setErrorMessage(err.message || "Invalid URL format. Please check the link.");
           setScanning(false);
         }
-      }, 150);
+      }, 200);
     } catch (err: any) {
       setErrorMessage(err.message || "Failed to analyze URL.");
       setScanning(false);
@@ -116,20 +171,44 @@ export const UrlScannerCard: React.FC<UrlScannerCardProps> = ({
   const handleTrust = () => {
     if (report && onAddAllow) {
       onAddAllow(report.hostname);
-      showNotice(`Added ${report.hostname} to Trusted domains.`);
-      setTimeout(() => {
-        handleScan(report.rawInput || report.normalizedUrl);
-      }, 80);
+      setActionModal({
+        isOpen: true,
+        actionType: "trust",
+        domain: report.hostname
+      });
     }
   };
 
   const handleBlock = () => {
     if (report && onAddDeny) {
       onAddDeny(report.hostname);
-      showNotice(`Added ${report.hostname} to Blocked domains.`);
-      setTimeout(() => {
-        handleScan(report.rawInput || report.normalizedUrl);
-      }, 80);
+      setActionModal({
+        isOpen: true,
+        actionType: "block",
+        domain: report.hostname
+      });
+    }
+  };
+
+  const handleResetAndScanNew = () => {
+    setActionModal(null);
+    setInputUrl("");
+    setReport(null);
+    setErrorMessage(null);
+    setScanToast(null);
+    setTimeout(() => {
+      inputRef.current?.focus();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, 60);
+  };
+
+  const handleViewUpdatedReport = () => {
+    const domain = actionModal?.domain;
+    setActionModal(null);
+    if (domain) {
+      handleScan(domain);
+    } else if (report) {
+      handleScan(report.rawInput || report.normalizedUrl);
     }
   };
 
@@ -139,7 +218,7 @@ export const UrlScannerCard: React.FC<UrlScannerCardProps> = ({
         isDark
           ? "border-slate-800 bg-gradient-to-b from-slate-900/90 to-slate-950/90 text-slate-100 shadow-xl shadow-black/40"
           : "border-slate-200 bg-gradient-to-b from-white to-slate-50/80 text-slate-800 shadow-lg shadow-slate-200/50"
-      } p-6 sm:p-8`}
+      } p-4 sm:p-8`}
     >
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-6 border-b border-slate-700/20">
@@ -171,6 +250,189 @@ export const UrlScannerCard: React.FC<UrlScannerCardProps> = ({
         )}
       </div>
 
+      {/* Every-Scan Live Result Notification Popup Toast */}
+      {scanToast && (
+        <div
+          className={`fixed top-4 right-4 sm:top-6 sm:right-6 z-[9999] max-w-sm w-[calc(100vw-2rem)] rounded-2xl border-2 p-3.5 shadow-2xl animate-fade-in flex items-center justify-between gap-3 ${
+            isDark
+              ? "bg-[#0c1427] border-cyan-500/80 text-white shadow-cyan-950/60"
+              : "bg-white border-blue-500 text-slate-900 shadow-xl"
+          }`}
+        >
+          <div className="flex items-center gap-3 min-w-0">
+            <div
+              className={`p-2 rounded-xl shrink-0 ${
+                scanToast.verdict === "Safe"
+                  ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"
+                  : scanToast.verdict === "Dangerous"
+                  ? "bg-red-500/20 text-red-400 border border-red-500/30"
+                  : "bg-amber-500/20 text-amber-400 border border-amber-500/30"
+              }`}
+            >
+              <Sparkles className="w-4 h-4" />
+            </div>
+            <div className="min-w-0">
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <span
+                  className={`text-[9px] font-black uppercase tracking-wider px-1.5 py-0.2 rounded border ${
+                    isDark
+                      ? "bg-cyan-950 text-cyan-300 border-cyan-500/40"
+                      : "bg-blue-100 text-blue-800 border-blue-300"
+                  }`}
+                >
+                  Scan #{scanToast.id} Verified
+                </span>
+                <span className={`text-[10px] font-mono ${isDark ? "text-slate-400" : "text-slate-500"}`}>
+                  {scanToast.time}
+                </span>
+              </div>
+              <p className="text-xs font-bold truncate mt-0.5">{scanToast.domain}</p>
+              <p className={`text-[11px] ${isDark ? "text-slate-300" : "text-slate-600"}`}>
+                Trust Score:{" "}
+                <span
+                  className={`font-mono font-black ${
+                    scanToast.score >= 75
+                      ? "text-emerald-500"
+                      : scanToast.score < 40
+                      ? "text-red-500"
+                      : "text-amber-500"
+                  }`}
+                >
+                  {scanToast.score}/100
+                </span>{" "}
+                • Verdict: <span className="font-bold">{scanToast.verdict}</span>
+              </p>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={() => setScanToast(null)}
+            className={`p-1.5 rounded-lg border transition-colors shrink-0 ${
+              isDark
+                ? "border-slate-800 hover:bg-slate-800 text-slate-400 hover:text-white"
+                : "border-slate-200 hover:bg-slate-100 text-slate-500 hover:text-slate-800"
+            }`}
+          >
+            <X className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      )}
+
+      {/* Action Confirmation Modal (for Trust and Block Buttons) */}
+      {actionModal && (
+        <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+          <div
+            className={`relative w-full max-w-md rounded-3xl border-2 p-6 shadow-2xl transition-all ${
+              actionModal.actionType === "block"
+                ? isDark
+                  ? "bg-[#0f172a] border-red-500/70 shadow-red-950/60 text-white"
+                  : "bg-white border-red-500 shadow-xl text-slate-950"
+                : isDark
+                ? "bg-[#0f172a] border-emerald-500/70 shadow-emerald-950/60 text-white"
+                : "bg-white border-emerald-500 shadow-xl text-slate-950"
+            }`}
+          >
+            {/* Close X */}
+            <button
+              type="button"
+              onClick={() => setActionModal(null)}
+              className={`absolute top-4 right-4 p-1.5 rounded-xl border transition-colors ${
+                isDark
+                  ? "border-slate-800 hover:bg-slate-800 text-slate-400 hover:text-white"
+                  : "border-slate-200 hover:bg-slate-100 text-slate-500 hover:text-slate-900"
+              }`}
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            {/* Icon & Title */}
+            <div className="flex flex-col items-center text-center space-y-3">
+              <div
+                className={`p-4 rounded-2xl border-2 shadow-lg ${
+                  actionModal.actionType === "block"
+                    ? isDark
+                      ? "bg-red-950/60 border-red-500 text-red-400 shadow-red-950/50"
+                      : "bg-red-50 border-red-400 text-red-600 shadow-red-100"
+                    : isDark
+                    ? "bg-emerald-950/60 border-emerald-500 text-emerald-400 shadow-emerald-950/50"
+                    : "bg-emerald-50 border-emerald-400 text-emerald-600 shadow-emerald-100"
+                }`}
+              >
+                {actionModal.actionType === "block" ? (
+                  <ShieldBan className="w-10 h-10 animate-bounce" />
+                ) : (
+                  <ShieldCheck className="w-10 h-10 animate-bounce" />
+                )}
+              </div>
+
+              <div>
+                <span
+                  className={`text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${
+                    actionModal.actionType === "block"
+                      ? "bg-red-950/80 border-red-500/40 text-red-300"
+                      : "bg-emerald-950/80 border-emerald-500/40 text-emerald-300"
+                  }`}
+                >
+                  {actionModal.actionType === "block" ? "Security Rule Enforced" : "Exemption Activated"}
+                </span>
+                <h3 className="text-xl font-black mt-1.5 tracking-tight">
+                  {actionModal.actionType === "block"
+                    ? "Domain Blocked Successfully!"
+                    : "Domain Added to Trusted List!"}
+                </h3>
+              </div>
+
+              {/* Domain pill */}
+              <div
+                className={`w-full p-3 rounded-xl border font-mono text-xs font-bold break-all ${
+                  isDark ? "bg-slate-950 border-slate-800 text-cyan-300" : "bg-slate-50 border-slate-300 text-blue-900"
+                }`}
+              >
+                {actionModal.domain}
+              </div>
+
+              <p className={`text-xs leading-relaxed ${isDark ? "text-slate-300" : "text-slate-600"}`}>
+                {actionModal.actionType === "block"
+                  ? "This website is now permanently blocked. All navigation will be intercepted with a zero trust score (Dangerous)."
+                  : "This website has been added to your trusted allowlist and will bypass automatic security warnings."}
+              </p>
+
+              {/* User Action Buttons */}
+              <div className="w-full pt-3 space-y-2.5">
+                {/* Button 1: Scan New Link (Direct requirement from user) */}
+                <button
+                  type="button"
+                  onClick={handleResetAndScanNew}
+                  className={`w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-xs font-black transition-all shadow-md active:scale-95 ${
+                    isDark
+                      ? "bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 shadow-cyan-950/50"
+                      : "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-blue-500/30"
+                  }`}
+                >
+                  <Plus className="w-4 h-4" />
+                  <span>Scan Another Link / Naya Link Daalein</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+
+                {/* Button 2: View Updated Report */}
+                <button
+                  type="button"
+                  onClick={handleViewUpdatedReport}
+                  className={`w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-xs font-bold border transition-all ${
+                    isDark
+                      ? "border-slate-700 bg-slate-800/80 hover:bg-slate-700 text-slate-200"
+                      : "border-slate-300 bg-slate-100 hover:bg-slate-200 text-slate-800"
+                  }`}
+                >
+                  <Eye className="w-4 h-4" />
+                  <span>View Updated Security Report</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Main Search Input Form */}
       <div className="mt-6 space-y-4">
         <form
@@ -185,6 +447,7 @@ export const UrlScannerCard: React.FC<UrlScannerCardProps> = ({
               <Globe className={`w-4 h-4 ${isDark ? "text-cyan-400" : "text-slate-400"}`} />
             </div>
             <input
+              ref={inputRef}
               type="text"
               value={inputUrl}
               onChange={(e) => {
@@ -192,7 +455,7 @@ export const UrlScannerCard: React.FC<UrlScannerCardProps> = ({
                 if (errorMessage) setErrorMessage(null);
               }}
               placeholder="Paste or type website URL (e.g. https://paypal-security-update.xyz or google.com)..."
-              className={`w-full pl-10 pr-24 py-3 rounded-xl text-sm font-mono border transition-all focus:outline-none focus:ring-2 ${
+              className={`w-full pl-10 pr-20 sm:pr-24 py-3 rounded-xl text-xs sm:text-sm font-mono border transition-all focus:outline-none focus:ring-2 ${
                 isDark
                   ? "bg-slate-950 border-slate-700 text-white placeholder-slate-400 focus:border-cyan-400 focus:ring-cyan-500/30"
                   : "bg-slate-50/80 border-slate-300 text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:ring-blue-500/20 focus:bg-white"
@@ -218,7 +481,7 @@ export const UrlScannerCard: React.FC<UrlScannerCardProps> = ({
           <button
             type="submit"
             disabled={scanning}
-            className={`flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all shadow-md active:scale-95 disabled:opacity-50 ${
+            className={`flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all shadow-md active:scale-95 disabled:opacity-50 w-full sm:w-auto ${
               isDark
                 ? "bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 shadow-cyan-950/40"
                 : "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-blue-500/20"
@@ -320,6 +583,20 @@ export const UrlScannerCard: React.FC<UrlScannerCardProps> = ({
                 >
                   Risk: {(report.phishProbability * 100).toFixed(1)}%
                 </span>
+
+                {/* Live Fresh Scan Indicator Badge */}
+                {lastScanInfo && (
+                  <span
+                    className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold border animate-pulse ${
+                      isDark
+                        ? "bg-cyan-950/70 border-cyan-500/50 text-cyan-300"
+                        : "bg-blue-100 border-blue-300 text-blue-900"
+                    }`}
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+                    <span>Scan #{lastScanInfo.count} Verified • {lastScanInfo.time}</span>
+                  </span>
+                )}
               </div>
 
               <h3 className={`text-xl font-extrabold tracking-tight ${isDark ? "text-white" : "text-slate-900"}`}>
@@ -519,14 +796,14 @@ export const UrlScannerCard: React.FC<UrlScannerCardProps> = ({
             )}
           </div>
 
-          {/* Action Toolbar */}
-          <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-700/20">
-            <div className="flex items-center gap-2">
+          {/* Action Toolbar (Responsive for Mobile & Desktop) */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-slate-700/20">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
               {onAddAllow && (
                 <button
                   type="button"
                   onClick={handleTrust}
-                  className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold border transition-colors ${
+                  className={`flex items-center justify-center gap-1.5 px-3.5 py-2.5 sm:py-2 rounded-xl text-xs font-bold border transition-colors ${
                     isDark
                       ? "border-emerald-800/80 bg-emerald-950/40 hover:bg-emerald-900/60 text-emerald-300"
                       : "border-emerald-300 bg-emerald-50 hover:bg-emerald-100 text-emerald-800"
@@ -541,7 +818,7 @@ export const UrlScannerCard: React.FC<UrlScannerCardProps> = ({
                 <button
                   type="button"
                   onClick={handleBlock}
-                  className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold border transition-colors ${
+                  className={`flex items-center justify-center gap-1.5 px-3.5 py-2.5 sm:py-2 rounded-xl text-xs font-bold border transition-colors ${
                     isDark
                       ? "border-red-800/80 bg-red-950/40 hover:bg-red-900/60 text-red-300"
                       : "border-red-300 bg-red-50 hover:bg-red-100 text-red-800"
@@ -551,12 +828,26 @@ export const UrlScannerCard: React.FC<UrlScannerCardProps> = ({
                   <span>Block Domain</span>
                 </button>
               )}
+
+              {/* Reset & Scan New Link */}
+              <button
+                type="button"
+                onClick={handleResetAndScanNew}
+                className={`flex items-center justify-center gap-1.5 px-3.5 py-2.5 sm:py-2 rounded-xl text-xs font-bold border transition-colors ${
+                  isDark
+                    ? "border-cyan-500/40 bg-cyan-950/40 hover:bg-cyan-900/60 text-cyan-300"
+                    : "border-blue-300 bg-blue-50 hover:bg-blue-100 text-blue-900 font-bold"
+                }`}
+              >
+                <Plus className="w-3.5 h-3.5" />
+                <span>Scan New Link</span>
+              </button>
             </div>
 
             <button
               type="button"
               onClick={handleCopyReport}
-              className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold border transition-colors ${
+              className={`flex items-center justify-center gap-1.5 px-3.5 py-2.5 sm:py-2 rounded-xl text-xs font-semibold border transition-colors w-full sm:w-auto ${
                 isDark
                   ? "border-slate-700 bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white"
                   : "border-slate-300 bg-white hover:bg-slate-100 text-slate-700"

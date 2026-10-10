@@ -332,19 +332,19 @@ export const OptionsApp: React.FC = () => {
     <div
       className={`min-h-screen transition-colors duration-200 ${
         isDark ? "bg-[#0A0E17] text-slate-100" : "bg-[#F1F5F9] text-slate-950"
-      } p-4 sm:p-8 lg:p-12 font-sans`}
+      } p-3.5 sm:p-8 lg:p-12 font-sans`}
     >
       <div className="max-w-5xl mx-auto space-y-6">
         {/* Top Navbar with elevated z-index so dropdown menu is always in front */}
         <header
-          className={`relative z-50 rounded-2xl border p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4 transition-all ${
+          className={`relative z-50 rounded-2xl border p-3.5 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-3.5 sm:gap-4 transition-all ${
             isDark
               ? "border-slate-800 bg-slate-900/90 shadow-xl shadow-black/40 backdrop-blur-md"
               : "border-slate-300 bg-white shadow-xl shadow-slate-300/40 backdrop-blur-md"
           }`}
         >
           {/* Logo & Subtitle */}
-          <div className="flex items-center gap-3.5 w-full sm:w-auto">
+          <div className="flex items-center gap-3 w-full sm:w-auto">
             <div className="relative group shrink-0">
               <div
                 className={`absolute -inset-0.5 rounded-2xl blur-sm opacity-70 group-hover:opacity-100 transition duration-300 ${
@@ -352,7 +352,7 @@ export const OptionsApp: React.FC = () => {
                 }`}
               />
               <div
-                className={`relative w-12 h-12 rounded-2xl p-0.5 border overflow-hidden flex items-center justify-center ${
+                className={`relative w-11 h-11 sm:w-12 sm:h-12 rounded-2xl p-0.5 border overflow-hidden flex items-center justify-center ${
                   isDark ? "bg-slate-950 border-cyan-500/60 shadow-lg shadow-cyan-950/50" : "bg-white border-blue-400 shadow-md"
                 }`}
               >
@@ -366,13 +366,13 @@ export const OptionsApp: React.FC = () => {
               </div>
             </div>
 
-            <div>
-              <div className="flex items-center gap-2">
-                <h1 className={`text-xl font-black tracking-tight ${isDark ? "text-white" : "text-slate-950"}`}>
+            <div className="min-w-0 flex-1 sm:flex-initial">
+              <div className="flex items-center gap-2 flex-wrap">
+                <h1 className={`text-lg sm:text-xl font-black tracking-tight ${isDark ? "text-white" : "text-slate-950"}`}>
                   TrustLens
                 </h1>
                 <span
-                  className={`text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider border ${
+                  className={`text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider border ${
                     isDark
                       ? "bg-cyan-950/80 border-cyan-500/50 text-cyan-300"
                       : "bg-blue-100 border-blue-300 text-blue-900 font-extrabold"
@@ -381,7 +381,7 @@ export const OptionsApp: React.FC = () => {
                   By Code Warriors
                 </span>
               </div>
-              <p className={`text-xs font-semibold ${isDark ? "text-slate-300" : "text-slate-600"}`}>
+              <p className={`text-[11px] sm:text-xs font-semibold truncate sm:whitespace-normal ${isDark ? "text-slate-300" : "text-slate-600"}`}>
                 Real-time Phishing Detection & Threat Verification
               </p>
             </div>
@@ -404,7 +404,7 @@ export const OptionsApp: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border text-xs font-extrabold transition-all shadow-md active:scale-95 ${
+                className={`flex items-center gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl border text-xs font-extrabold transition-all shadow-md active:scale-95 ${
                   isMenuOpen
                     ? isDark
                       ? "bg-cyan-500 text-slate-950 border-cyan-400 shadow-cyan-950/50"
@@ -423,10 +423,18 @@ export const OptionsApp: React.FC = () => {
                 />
               </button>
 
-              {/* Dropdown Menu Window (Prominent elevated floating popup card with distinct border & notch) */}
+              {/* Backdrop overlay on mobile when menu is open to prevent outside clicks */}
               {isMenuOpen && (
                 <div
-                  className={`absolute right-0 mt-3 w-72 sm:w-80 rounded-2xl border-2 p-2.5 shadow-2xl z-[9999] animate-fade-in ${
+                  className="fixed inset-0 bg-black/50 backdrop-blur-xs z-[9998] sm:hidden"
+                  onClick={() => setIsMenuOpen(false)}
+                />
+              )}
+
+              {/* Dropdown Menu Window (Perfect bounded positioning on mobile, floating notch card on laptop) */}
+              {isMenuOpen && (
+                <div
+                  className={`fixed left-3 right-3 top-20 sm:top-auto sm:left-auto sm:right-0 sm:absolute sm:mt-3 sm:w-80 max-h-[85vh] overflow-y-auto rounded-2xl border-2 p-2.5 shadow-2xl z-[9999] animate-fade-in ${
                     isDark
                       ? "border-cyan-500/70 ring-2 ring-cyan-500/20 text-white shadow-2xl shadow-cyan-950/60"
                       : "border-blue-500 ring-4 ring-blue-500/15 text-slate-950 shadow-2xl shadow-blue-950/25"
@@ -437,9 +445,9 @@ export const OptionsApp: React.FC = () => {
                     opacity: 1
                   }}
                 >
-                  {/* Visual Pointer Notch pointing directly to the Menu button */}
+                  {/* Visual Pointer Notch pointing directly to the Menu button on Laptop screens */}
                   <div
-                    className={`absolute -top-2 right-8 w-3.5 h-3.5 rotate-45 border-t-2 border-l-2 pointer-events-none ${
+                    className={`hidden sm:block absolute -top-2 right-8 w-3.5 h-3.5 rotate-45 border-t-2 border-l-2 pointer-events-none ${
                       isDark ? "border-cyan-500/70 bg-[#0c1427]" : "border-blue-500 bg-white"
                     }`}
                   />
@@ -726,11 +734,11 @@ export const OptionsApp: React.FC = () => {
                     : "bg-slate-50 border-slate-400 text-slate-950 placeholder-slate-500 focus:border-blue-600 focus:bg-white"
                 }`}
               />
-              <div className="flex gap-2">
+              <div className="flex gap-2 w-full sm:w-auto">
                 <button
                   type="button"
                   onClick={() => handleAddAllow()}
-                  className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black transition-all shadow-sm active:scale-95"
+                  className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black transition-all shadow-sm active:scale-95"
                 >
                   <Plus className="w-3.5 h-3.5" />
                   <span>Always Trust</span>
@@ -738,7 +746,7 @@ export const OptionsApp: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => handleAddDeny()}
-                  className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs font-black transition-all shadow-sm active:scale-95"
+                  className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs font-black transition-all shadow-sm active:scale-95"
                 >
                   <Plus className="w-3.5 h-3.5" />
                   <span>Always Block</span>
